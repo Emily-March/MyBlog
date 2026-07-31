@@ -11,3 +11,5 @@ runtime-*.json
 validation-report.json
 colors_and_type.css
 %LOCALAPPDATA%/
+%APPDATA%/
+.vercel/
