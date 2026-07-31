@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>归档 · Emily's Blog</title>
+  <meta name="description" content="Emily's Blog 文章归档。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --ink: #3a322a;
+      --ink-soft: #6f6557;
+      --ink-faint: #9b9084;
+      --brand: #e8893c;
+      --brand-dark: #c96e25;
+      --brand-soft: rgba(232, 137, 60, 0.12);
+      --surface: rgba(255, 253, 248, 0.68);
+      --surface-strong: rgba(255, 253, 248, 0.9);
+      --border: rgba(232, 222, 207, 0.92);
+      --shadow: 0 10px 30px -16px rgba(96, 66, 36, 0.2);
+      --shadow-hover: 0 16px 38px -16px rgba(96, 66, 36, 0.28);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-serif: "Noto Serif SC", "Source Han Serif SC", serif;
+      --font-display: "Fraunces", "Noto Serif SC", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 5%, rgba(232, 137, 60, 0.13), transparent 27rem),
+        radial-gradient(circle at 90% 10%, rgba(177, 203, 185, 0.17), transparent 29rem),
+        var(--bg);
+      font-family: var(--font-sans);
+    }
+    button, input { font: inherit; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+
+    .site-nav {
+      position: fixed;
+      z-index: 50;
+      top: 1rem;
+      left: 50%;
+      width: min(calc(100% - 2rem), 1200px);
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 999px;
+      background: rgba(255, 253, 248, 0.62);
+      backdrop-filter: blur(18px) saturate(135%);
+      box-shadow: 0 8px 30px rgba(96, 66, 36, 0.08);
+      transform: translateX(-50%);
+      transition: 0.35s ease;
+    }
+    .site-nav.is-scrolled {
+      top: 0.65rem;
+      border-color: var(--border);
+      background: rgba(255, 253, 248, 0.92);
+      backdrop-filter: blur(24px) saturate(150%);
+      box-shadow: 0 14px 40px rgba(96, 66, 36, 0.16);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      padding: 0 2rem;
+    }
+    .wordmark {
+      color: var(--ink);
+      font: 600 1.25rem/1 var(--font-display);
+      text-decoration: none;
+    }
+    .wordmark span { color: var(--brand); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 0;
+      color: var(--ink-soft);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--brand); }
+    .nav-link.active::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--brand);
+    }
+    .menu-button {
+      display: none;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+    }
+    .mobile-menu {
+      position: fixed;
+      z-index: 45;
+      top: 5.3rem;
+      right: 1rem;
+      left: 1rem;
+      display: none;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface-strong);
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-hover);
+    }
+    .mobile-menu.open { display: grid; gap: 0.25rem; }
+    .mobile-menu a {
+      padding: 0.8rem 1rem;
+      border-radius: 14px;
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .mobile-menu a:hover, .mobile-menu a.active { color: var(--brand); background: var(--brand-soft); }
+
+    .archive-shell {
+      width: min(calc(100% - 2rem), 896px);
+      margin: 0 auto;
+      padding: 8.5rem 0 5rem;
+    }
+    .archive-header { margin-bottom: 2rem; }
+    .archive-title {
+      margin: 0;
+      color: #493b2f;
+      font: 700 clamp(2.25rem, 5vw, 3.3rem)/1.15 var(--font-serif);
+      letter-spacing: -0.035em;
+    }
+    .archive-description {
+      margin: 0.7rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    .archive-search {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 0 auto 1.5rem;
+    }
+    .archive-search svg {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 1rem;
+      width: 19px;
+      height: 19px;
+      color: var(--ink-faint);
+      transform: translateY(-50%);
+      pointer-events: none;
+      transition: color 0.25s ease;
+    }
+    .archive-search:focus-within svg { color: var(--brand); }
+    .archive-search input {
+      width: 100%;
+      height: 50px;
+      padding: 0 1rem 0 3rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      outline: none;
+      color: var(--ink);
+      background: var(--surface-strong);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      transition: 0.3s ease;
+    }
+    .archive-search input:focus {
+      border-color: rgba(232, 137, 60, 0.48);
+      box-shadow: 0 12px 34px -16px rgba(96, 66, 36, 0.24), 0 0 0 3px rgba(232, 137, 60, 0.1);
+    }
+
+    .category-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .category-chip {
+      padding: 0.48rem 0.78rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--ink-soft);
+      background: var(--surface);
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+    .category-chip:hover { color: var(--brand-dark); border-color: rgba(232, 137, 60, 0.38); }
+    .category-chip.active {
+      color: white;
+      border-color: var(--brand);
+      background: var(--brand);
+      box-shadow: 0 8px 18px rgba(232, 137, 60, 0.2);
+    }
+    .category-chip span { margin-left: 0.25rem; opacity: 0.72; font-size: 0.66rem; }
+
+    .result-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--ink-faint);
+      font-size: 0.75rem;
+    }
+    .clear-filter {
+      display: none;
+      padding: 0;
+      border: 0;
+      color: var(--brand-dark);
+      background: transparent;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .clear-filter.visible { display: inline; }
+
+    .timeline { position: relative; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 24px;
+      width: 2px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--brand), rgba(232, 137, 60, 0.16));
+    }
+    .year-group { position: relative; margin-bottom: 2.6rem; }
+    .year-heading {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 0 0 1.25rem 4px;
+    }
+    .year-dot {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 3px solid var(--bg);
+      border-radius: 50%;
+      color: white;
+      background: var(--brand);
+      box-shadow: 0 8px 18px rgba(232, 137, 60, 0.26);
+      font: 700 0.78rem/1 var(--font-sans);
+    }
+    .year-title { margin: 0; color: #493b2f; font: 700 1.55rem/1 var(--font-serif); }
+    .year-count { color: var(--ink-faint); font-size: 0.7rem; font-weight: 700; }
+    .year-entries { display: grid; gap: 0.8rem; margin-left: 64px; }
+
+    .archive-entry {
+      display: block;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: inherit;
+      background: var(--surface);
+      backdrop-filter: blur(14px) saturate(115%);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      transition: transform 0.32s var(--ease), border-color 0.3s ease, box-shadow 0.32s var(--ease), background 0.3s ease;
+    }
+    .archive-entry:hover {
+      border-color: rgba(232, 137, 60, 0.4);
+      background: rgba(255, 253, 248, 0.86);
+      box-shadow: var(--shadow-hover);
+      transform: translateX(4px);
+    }
+    .entry-main { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .entry-title {
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      font: 600 0.92rem/1.5 var(--font-serif);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: color 0.25s ease;
+    }
+    .archive-entry:hover .entry-title { color: var(--brand-dark); }
+    .entry-meta { display: flex; flex: 0 0 auto; align-items: center; gap: 0.85rem; color: var(--ink-faint); font-size: 0.65rem; }
+    .meta-item { display: inline-flex; align-items: center; gap: 0.28rem; }
+    .meta-item svg { width: 12px; height: 12px; }
+    .entry-taxonomy { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.65rem; }
+    .entry-category, .entry-tag {
+      padding: 0.22rem 0.48rem;
+      border-radius: 999px;
+      font-size: 0.62rem;
+      font-weight: 700;
+    }
+    .entry-category { color: var(--brand-dark); background: var(--brand-soft); }
+    .entry-tag { color: var(--ink-soft); background: rgba(239, 230, 214, 0.64); }
+
+    .empty-state {
+      display: none;
+      padding: 4rem 1rem;
+      border: 1px dashed var(--border);
+      border-radius: 20px;
+      text-align: center;
+      background: rgba(255, 253, 248, 0.38);
+    }
+    .empty-state.visible { display: block; }
+    .empty-state svg { width: 36px; height: 36px; margin-bottom: 0.8rem; color: var(--brand); }
+    .empty-state h2 { margin: 0; font: 600 1.05rem/1.5 var(--font-serif); }
+    .empty-state p { margin: 0.4rem 0 0; color: var(--ink-soft); font-size: 0.78rem; }
+
+    .page-footer { padding: 1rem 1rem 3rem; color: var(--ink-faint); text-align: center; font-size: 0.7rem; }
+
+    @media (max-width: 768px) {
+      .site-nav { top: 0.5rem; width: calc(100% - 1rem); }
+      .site-nav.is-scrolled { top: 0.35rem; }
+      .nav-inner { height: 60px; padding: 0 1rem; }
+      .nav-links { display: none; }
+      .menu-button { display: grid; }
+      .archive-shell { width: min(calc(100% - 1.5rem), 896px); padding-top: 7.2rem; }
+      .archive-search { width: 100%; }
+      .category-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.25rem; scrollbar-width: none; }
+      .category-row::-webkit-scrollbar { display: none; }
+      .category-chip { flex: 0 0 auto; }
+      .timeline::before { left: 19px; }
+      .year-heading { margin-left: 0; }
+      .year-dot { width: 38px; height: 38px; }
+      .year-entries { margin-left: 50px; }
+      .entry-main { align-items: flex-start; flex-direction: column; gap: 0.45rem; }
+      .entry-title { width: 100%; white-space: normal; }
+      .entry-meta { gap: 0.7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+      .archive-entry:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="主导航">
+    <div class="nav-inner">
+      <a class="wordmark" href="index.html"><span>Emily's</span> Blog</a>
+      <div class="nav-links">
+        <a class="nav-link" href="index.html">首页</a>
+        <a class="nav-link active" href="articles.html" aria-current="page">归档</a>
+        <a class="nav-link" href="about.html">关于</a>
+      </div>
+      <button class="menu-button" type="button" aria-label="打开菜单" aria-expanded="false" id="menu-toggle"><i data-lucide="menu"></i></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">首页</a>
+    <a class="active" href="articles.html">归档</a>
+    <a href="about.html">关于</a>
+  </div>
+
+  <main class="archive-shell">
+    <header class="archive-header">
+      <h1 class="archive-title">归档</h1>
+      <p class="archive-description">所有被时间收藏的文字 · 共 <span id="total-count">12</span> 篇</p>
+    </header>
+
+    <label class="archive-search">
+      <i data-lucide="search"></i>
+      <input id="archive-search" type="search" autocomplete="off" placeholder="搜寻被封存的知识…">
+    </label>
+
+    <div class="category-row" id="category-row" aria-label="按分类筛选"></div>
+
+    <div class="result-summary">
+      <span>显示 <strong id="result-count">12</strong> 篇</span>
+      <button class="clear-filter" id="clear-filter" type="button">清除筛选</button>
+    </div>
+
+    <section class="timeline" id="timeline" aria-live="polite"></section>
+
+    <section class="empty-state" id="empty-state">
+      <i data-lucide="search-x"></i>
+      <h2>没有找到相关文章</h2>
+      <p>试试其他关键词或分类。</p>
+    </section>
+  </main>
+
+  <footer class="page-footer">© 2026 Emily's Blog · 时间经过，文字留下。</footer>
+
+  <script>
+    const articles = [
+      { title: '在清晨的咖啡香中，寻找生活的诗意', category: '生活随笔', tags: ['随笔', '日常'], date: '2026-07-28', views: 268 },
+      { title: '用 CSS 玻璃拟态构建温暖的个人空间', category: '技术笔记', tags: ['CSS', '设计'], date: '2026-07-25', views: 432 },
+      { title: '盛夏的晚风与未完成的诗', category: '生活随笔', tags: ['诗歌', '夏日'], date: '2026-07-20', views: 189 },
+      { title: '从零搭建个人博客的那些事', category: '技术笔记', tags: ['Next.js', '博客'], date: '2026-07-15', views: 621 },
+      { title: '读《山茶文具店》：书信抵达不了的地方', category: '阅读记录', tags: ['阅读', '书摘'], date: '2026-07-09', views: 154 },
+      { title: '沿着海岸线慢慢走：镰仓一日散步', category: '旅行日志', tags: ['旅行', '摄影'], date: '2026-06-30', views: 517 },
+      { title: '让 Markdown 写作重新变得简单', category: '技术笔记', tags: ['Markdown', '写作'], date: '2026-06-22', views: 389 },
+      { title: '雨天适合整理房间，也适合整理自己', category: '生活随笔', tags: ['随笔', '雨天'], date: '2026-06-15', views: 203 },
+      { title: 'JavaScript 动画性能的几个实用原则', category: '技术笔记', tags: ['JavaScript', '性能'], date: '2025-12-18', views: 746 },
+      { title: '一间理想书房应该是什么样子', category: '阅读记录', tags: ['阅读', '空间'], date: '2025-11-29', views: 177 },
+      { title: '第一次独自旅行前，我准备了什么', category: '旅行日志', tags: ['旅行', '记录'], date: '2025-10-18', views: 338 },
+      { title: '把喜欢的事情做得慢一点', category: '生活随笔', tags: ['随笔', '思考'], date: '2025-09-06', views: 281 }
+    ];
+
+    const categories = ['全部', '生活随笔', '技术笔记', '阅读记录', '旅行日志'];
+    const state = { query: '', category: '全部' };
+    const timeline = document.querySelector('#timeline');
+    const categoryRow = document.querySelector('#category-row');
+    const searchInput = document.querySelector('#archive-search');
+    const resultCount = document.querySelector('#result-count');
+    const clearFilter = document.querySelector('#clear-filter');
+    const emptyState = document.querySelector('#empty-state');
+
+    function categoryCount(category) {
+      return category === '全部' ? articles.length : articles.filter(article => article.category === category).length;
+    }
+
+    function renderCategories() {
+      categoryRow.innerHTML = categories.map(category => `
+        <button class="category-chip ${state.category === category ? 'active' : ''}" type="button" data-category="${category}">
+          ${category}<span>${categoryCount(category)}</span>
+        </button>`).join('');
+    }
+
+    function filteredArticles() {
+      const query = state.query.trim().toLocaleLowerCase('zh-CN');
+      return articles
+        .filter(article => {
+          const text = [article.title, article.category, ...article.tags].join(' ').toLocaleLowerCase('zh-CN');
+          return (!query || text.includes(query)) && (state.category === '全部' || article.category === state.category);
+        })
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    function entryMarkup(article) {
+      return `
+        <a class="archive-entry" href="post.html">
+          <div class="entry-main">
+            <h3 class="entry-title">${article.title}</h3>
+            <div class="entry-meta">
+              <span class="meta-item"><i data-lucide="eye"></i>${article.views}</span>
+              <span class="meta-item"><i data-lucide="calendar"></i>${article.date.replaceAll('-', '.')}</span>
+            </div>
+          </div>
+          <div class="entry-taxonomy">
+            <span class="entry-category">${article.category}</span>
+            ${article.tags.map(tag => `<span class="entry-tag"># ${tag}</span>`).join('')}
+          </div>
+        </a>`;
+    }
+
+    function updateUrl() {
+      const params = new URLSearchParams();
+      if (state.query) params.set('q', state.query);
+      if (state.category !== '全部') params.set('category', state.category);
+      history.replaceState(null, '', `${location.pathname}${params.size ? `?${params}` : ''}`);
+    }
+
+    function render() {
+      const filtered = filteredArticles();
+      const grouped = Object.groupBy
+        ? Object.groupBy(filtered, article => article.date.slice(0, 4))
+        : filtered.reduce((groups, article) => {
+            const year = article.date.slice(0, 4);
+            (groups[year] ||= []).push(article);
+            return groups;
+          }, {});
+      const years = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
+
+      timeline.innerHTML = years.map(year => `
+        <section class="year-group">
+          <div class="year-heading">
+            <span class="year-dot">${year.slice(-2)}</span>
+            <h2 class="year-title">${year}</h2>
+            <span class="year-count">${grouped[year].length} 篇</span>
+          </div>
+          <div class="year-entries">${grouped[year].map(entryMarkup).join('')}</div>
+        </section>`).join('');
+
+      resultCount.textContent = filtered.length;
+      timeline.style.display = filtered.length ? 'block' : 'none';
+      emptyState.classList.toggle('visible', !filtered.length);
+      clearFilter.classList.toggle('visible', Boolean(state.query || state.category !== '全部'));
+      renderCategories();
+      updateUrl();
+      lucide.createIcons();
+    }
+
+    function readUrl() {
+      const params = new URLSearchParams(location.search);
+      state.query = params.get('q') || '';
+      state.category = categories.includes(params.get('category')) ? params.get('category') : '全部';
+      searchInput.value = state.query;
+    }
+
+    searchInput.addEventListener('input', () => { state.query = searchInput.value; render(); });
+    searchInput.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { state.query = ''; searchInput.value = ''; searchInput.blur(); render(); }
+    });
+    categoryRow.addEventListener('click', event => {
+      const button = event.target.closest('[data-category]');
+      if (!button) return;
+      state.category = button.dataset.category;
+      render();
+    });
+    clearFilter.addEventListener('click', () => { state.query = ''; state.category = '全部'; searchInput.value = ''; render(); });
+
+    const siteNav = document.querySelector('.site-nav');
+    const syncNav = () => siteNav.classList.toggle('is-scrolled', window.scrollY > 28);
+    window.addEventListener('scroll', syncNav, { passive: true });
+    syncNav();
+
+    const menuToggle = document.querySelector('#menu-toggle');
+    const mobileMenu = document.querySelector('#mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}"></i>`;
+      lucide.createIcons();
+    });
+
+    readUrl();
+    render();
+  </script>
+</body>
+</html>

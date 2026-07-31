@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emily's Blog</title>
+    <style id="theme-vars">
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Noto+Serif+SC:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Emily's Blog — warm cream + warm orange (single brand hue) */
+  --emily-background: #F7F2EA;
+  --emily-foreground: #3A322A;
+  --emily-card: rgba(255, 253, 248, 0.72);
+  --emily-card-foreground: #3A322A;
+  --emily-popover: #FFFDF8;
+  --emily-popover-foreground: #3A322A;
+  --emily-primary: #E8893C;
+  --emily-primary-foreground: #FFF8EE;
+  --emily-muted: #EFE6D6;
+  --emily-muted-foreground: #6F6557;
+  --emily-border: #E8DECF;
+  --emily-input: #F0E7D8;
+  --emily-ring: #E8893C;
+  --emily-radius-sm: 4px;
+  --emily-radius-md: 10px;
+  --emily-radius-lg: 16px;
+
+  /* Extended warm tokens (still single brand hue, no secondary/accent brand) */
+  --emily-ink-2: #6F6557;
+  --emily-ink-3: #A89E92;
+  --emily-surface-2: #FBF5EC;
+  --emily-brand-soft: rgba(232, 137, 60, 0.12);
+  --emily-brand-softer: rgba(232, 137, 60, 0.06);
+  --emily-glass: rgba(255, 253, 248, 0.55);
+  --emily-glass-strong: rgba(255, 253, 248, 0.82);
+  --emily-shadow-warm: 0 10px 30px -12px rgba(120, 80, 30, 0.18);
+  --emily-card-radius: 20px;
+  --emily-card-surface: rgba(255, 253, 248, 0.74);
+  --emily-card-border: rgba(232, 222, 207, 0.92);
+  --emily-card-shadow: 0 10px 30px -14px rgba(96, 66, 36, 0.18);
+  --emily-card-shadow-hover: 0 18px 44px -16px rgba(96, 66, 36, 0.28);
+  --emily-card-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --emily-font-sans: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --emily-font-serif: "Noto Serif SC", "Source Han Serif SC", "Fraunces", serif;
+  --emily-font-display: "Fraunces", "Noto Serif SC", serif;
+}
+
+html, body {
+  font-family: var(--emily-font-sans);
+  background-color: var(--emily-background);
+  color: var(--emily-foreground);
+}
+
+/* Display / serif helpers — one CJK serif family + one Latin display face */
+.font-display { font-family: var(--emily-font-display); }
+.font-serif-cn { font-family: var(--emily-font-serif); }
+
+/* Warm glassmorphism surface (subtle blur, no inner shadow) */
+.glass {
+  background: var(--emily-glass);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--emily-border);
+}
+.glass-strong {
+  background: var(--emily-glass-strong);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--emily-border);
+}
+
+/* Warm floating shadow for cards/widgets */
+.shadow-warm { box-shadow: var(--emily-shadow-warm); }
+
+/* Hide scrollbar for horizontal chip rows */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--emily-background);
+    --color-foreground: var(--emily-foreground);
+    --color-card: var(--emily-card);
+    --color-card-foreground: var(--emily-card-foreground);
+    --color-popover: var(--emily-popover);
+    --color-popover-foreground: var(--emily-popover-foreground);
+    --color-primary: var(--emily-primary);
+    --color-primary-foreground: var(--emily-primary-foreground);
+    --color-muted: var(--emily-muted);
+    --color-muted-foreground: var(--emily-muted-foreground);
+    --color-border: var(--emily-border);
+    --color-input: var(--emily-input);
+    --color-ring: var(--emily-ring);
+    --radius-sm: var(--emily-radius-sm);
+    --radius-md: var(--emily-radius-md);
+    --radius-lg: var(--emily-radius-lg);
+  }
+  @layer base {
+    body { background: var(--emily-background); color: var(--emily-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--emily-background); }
+      .text-background { color: var(--emily-background); }
+      .border-background { border-color: var(--emily-background); }
+      .ring-background { --tw-ring-color: var(--emily-background); }
+      .bg-foreground { background-color: var(--emily-foreground); }
+      .text-foreground { color: var(--emily-foreground); }
+      .border-foreground { border-color: var(--emily-foreground); }
+      .ring-foreground { --tw-ring-color: var(--emily-foreground); }
+      .bg-card { background-color: var(--emily-card); }
+      .text-card { color: var(--emily-card); }
+      .border-card { border-color: var(--emily-card); }
+      .ring-card { --tw-ring-color: var(--emily-card); }
+      .bg-card-foreground { background-color: var(--emily-card-foreground); }
+      .text-card-foreground { color: var(--emily-card-foreground); }
+      .border-card-foreground { border-color: var(--emily-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--emily-card-foreground); }
+      .bg-popover { background-color: var(--emily-popover); }
+      .text-popover { color: var(--emily-popover); }
+      .border-popover { border-color: var(--emily-popover); }
+      .ring-popover { --tw-ring-color: var(--emily-popover); }
+      .bg-popover-foreground { background-color: var(--emily-popover-foreground); }
+      .text-popover-foreground { color: var(--emily-popover-foreground); }
+      .border-popover-foreground { border-color: var(--emily-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--emily-popover-foreground); }
+      .bg-primary { background-color: var(--emily-primary); }
+      .text-primary { color: var(--emily-primary); }
+      .border-primary { border-color: var(--emily-primary); }
+      .ring-primary { --tw-ring-color: var(--emily-primary); }
+      .bg-primary-foreground { background-color: var(--emily-primary-foreground); }
+      .text-primary-foreground { color: var(--emily-primary-foreground); }
+      .border-primary-foreground { border-color: var(--emily-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--emily-primary-foreground); }
+      .bg-muted { background-color: var(--emily-muted); }
+      .text-muted { color: var(--emily-muted); }
+      .border-muted { border-color: var(--emily-muted); }
+      .ring-muted { --tw-ring-color: var(--emily-muted); }
+      .bg-muted-foreground { background-color: var(--emily-muted-foreground); }
+      .text-muted-foreground { color: var(--emily-muted-foreground); }
+      .border-muted-foreground { border-color: var(--emily-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--emily-muted-foreground); }
+      .bg-border { background-color: var(--emily-border); }
+      .text-border { color: var(--emily-border); }
+      .border-border { border-color: var(--emily-border); }
+      .ring-border { --tw-ring-color: var(--emily-border); }
+      .bg-input { background-color: var(--emily-input); }
+      .text-input { color: var(--emily-input); }
+      .border-input { border-color: var(--emily-input); }
+      .ring-input { --tw-ring-color: var(--emily-input); }
+      .bg-ring { background-color: var(--emily-ring); }
+      .text-ring { color: var(--emily-ring); }
+      .border-ring { border-color: var(--emily-ring); }
+      .ring-ring { --tw-ring-color: var(--emily-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- ============================================================ -->
+      <!-- Section 1: Sticky Navigation Bar                             -->
+      <!-- ============================================================ -->
+      <nav class="site-nav z-50" aria-label="主导航">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16">
+            <!-- Left: Wordmark -->
+            <a href="#" class="flex items-center gap-1.5 font-display text-xl font-semibold tracking-tight transition-all duration-300 hover:opacity-80">
+              <span class="text-primary">Emily's</span>
+              <span class="text-foreground">Blog</span>
+            </a>
+            <!-- Center: Nav links (desktop) -->
+            <div class="hidden md:flex items-center gap-8">
+              <a href="index.html" class="nav-link active text-sm font-medium">首页</a>
+              <a href="articles.html" class="nav-link text-sm font-medium text-muted-foreground">归档</a>
+              <a href="about.html" class="nav-link text-sm font-medium text-muted-foreground">关于</a>
+            </div>
+            <!-- Right: Search + Subscribe -->
+            <div class="flex items-center gap-2 sm:gap-3">
+              <button class="hidden md:flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 hover:scale-110" style="background: transparent;" onmouseenter="this.style.background='var(--emily-brand-soft)'" onmouseleave="this.style.background='transparent'" aria-label="搜索">
+                <i data-lucide="search" class="w-[18px] h-[18px] text-foreground"></i>
+              </button>
+              <button class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium shadow-warm transition-all duration-300 hover:opacity-90 hover:scale-105">
+                <i data-lucide="bell" class="w-4 h-4"></i>
+                <span>订阅</span>
+              </button>
+              <!-- Mobile hamburger -->
+              <button class="md:hidden flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300" style="background: transparent;" onmouseenter="this.style.background='var(--emily-brand-soft)'" onmouseleave="this.style.background='transparent'" aria-label="菜单">
+                <i data-lucide="menu" class="w-5 h-5 text-foreground"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- ============================================================ -->
+      <!-- Section 2: Hero Section                                       -->
+      <!-- ============================================================ -->
+      <section class="hero-section relative flex items-center justify-center overflow-hidden" style="min-height: 70vh;">
+        <!-- Warm background image + cream overlay (see .hero-section::before) -->
+        <!-- Centered content -->
+        <div class="relative z-10 flex w-full flex-col items-center text-center px-4 max-w-3xl mx-auto py-20">
+          <!-- Main title -->
+          <h1 class="hero-title hero-fade-1 font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-tight mb-4">
+            Every Moment <span class="hero-title-accent">I Love You</span>
+          </h1>
+          <!-- Subtitle -->
+          <p class="hero-fade-2 font-serif-cn text-lg sm:text-xl text-muted-foreground mb-8">
+            我破晓，无远弗届
+          </p>
+          <!-- Buttons -->
+          <div class="hero-fade-3 flex flex-col sm:flex-row items-center gap-4">
+            <a href="#articles" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium shadow-warm transition-all duration-300 hover:scale-105 hover:opacity-90">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              开始阅读
+            </a>
+            <a href="about.html" class="inline-flex items-center gap-2 px-7 py-3 rounded-full glass text-sm font-medium text-foreground transition-all duration-300 hover:scale-105" style="border-color: var(--emily-border);">
+              <i data-lucide="user" class="w-4 h-4"></i>
+              关于我
+            </a>
+          </div>
+        </div>
+        <!-- Flowing waves: a soft transition from the hero image into the page -->
+        <div class="hero-waves" aria-hidden="true">
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false">
+            <g class="wave-layer wave-layer-back">
+              <path d="M0 55 C240 8 480 102 720 55 C960 8 1200 102 1440 55 V120 H0 Z"></path>
+              <path d="M1440 55 C1680 8 1920 102 2160 55 C2400 8 2640 102 2880 55 V120 H1440 Z"></path>
+            </g>
+            <g class="wave-layer wave-layer-middle">
+              <path d="M0 72 C240 118 480 26 720 72 C960 118 1200 26 1440 72 V120 H0 Z"></path>
+              <path d="M1440 72 C1680 118 1920 26 2160 72 C2400 118 2640 26 2880 72 V120 H1440 Z"></path>
+            </g>
+            <g class="wave-layer wave-layer-front">
+              <path d="M0 84 C240 62 480 106 720 84 C960 62 1200 106 1440 84 V120 H0 Z"></path>
+              <path d="M1440 84 C1680 62 1920 106 2160 84 C2400 62 2640 106 2880 84 V120 H1440 Z"></path>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Search belongs to the content layer and gently overlaps the wave boundary. -->
+      <div class="hero-search-wrap">
+        <form class="hero-search" role="search" aria-label="搜索文章">
+          <i data-lucide="search" class="hero-search-icon w-5 h-5" aria-hidden="true"></i>
+          <label class="sr-only" for="hero-search-input">搜索文章</label>
+          <input id="hero-search-input" type="search" autocomplete="off" placeholder="搜索文章、标签或关键词…" />
+          <span class="hero-search-hint" aria-hidden="true">Enter</span>
+        </form>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- Section 3: Main Content — Two-Column Asymmetric Layout       -->
+      <!-- ============================================================ -->
+      <section id="articles" class="py-8 sm:py-12">
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div class="blog-grid">
+
+            <!-- ===================== Left Column: Article Feed ===================== -->
+            <div class="blog-main">
+              <!-- Section header -->
+              <div class="flex items-center mb-6">
+                <h2 class="font-serif-cn text-2xl font-semibold text-foreground">最新文章</h2>
+              </div>
+
+              <!-- Featured article (large card) -->
+              <article class="surface-card featured-card overflow-hidden mb-8" data-article-link="post.html" role="link" tabindex="0" aria-label="阅读：在清晨的咖啡香中，寻找生活的诗意">
+                <div class="flex flex-col md:flex-row">
+                  <!-- Gradient thumbnail -->
+                  <div class="card-media thumb-featured relative md:w-[45%] min-h-[200px] flex items-center justify-center p-6">
+                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium" style="background: var(--emily-glass-strong); color: var(--emily-foreground);">生活随笔</span>
+                    <i data-lucide="coffee" class="w-12 h-12 text-white opacity-70"></i>
+                  </div>
+                  <!-- Content -->
+                  <div class="flex-1 p-6 flex flex-col justify-center">
+                    <h3 class="font-serif-cn text-xl sm:text-2xl font-semibold text-foreground mb-3 leading-snug transition-colors duration-300 hover:text-primary cursor-pointer">
+                      在清晨的咖啡香中，寻找生活的诗意
+                    </h3>
+                    <p class="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">
+                      每一个清晨，当第一缕阳光透过窗帘洒落，咖啡的醇香在空气中弥漫。那是生活赠予我们的诗意瞬间，值得被细细品味与珍藏。在这篇文章中，我想与你分享那些藏在日常缝隙里的美好。
+                    </p>
+                    <div class="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                      <span class="inline-flex items-center gap-1">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                        2026.07.28
+                      </span>
+                      <span class="px-2 py-0.5 rounded-full" style="background: var(--emily-brand-soft); color: var(--emily-primary);">生活随笔</span>
+                      <span class="inline-flex items-center gap-1">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                        5 分钟阅读
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Article list (5 medium cards) -->
+              <div class="flex flex-col gap-4">
+
+                <!-- Article 1 -->
+                <article class="surface-card article-card overflow-hidden" data-article-link="post.html" role="link" tabindex="0" aria-label="阅读：用 CSS 玻璃拟态构建温暖的个人空间">
+                  <div class="flex items-stretch">
+                    <div class="card-media thumb-1 min-w-[120px] w-[120px] flex items-center justify-center">
+                      <i data-lucide="layout" class="w-7 h-7 text-white opacity-70"></i>
+                    </div>
+                    <div class="flex-1 p-4 flex flex-col justify-center min-w-0">
+                      <h3 class="font-serif-cn text-base font-semibold text-foreground mb-1.5 leading-snug transition-colors duration-300 hover:text-primary cursor-pointer truncate">
+                        用 CSS 玻璃拟态构建温暖的个人空间
+                      </h3>
+                      <p class="text-xs text-muted-foreground mb-2 line-clamp-1">
+                        探索 backdrop-filter 与暖色系搭配，打造具有温度感的玻璃质感界面设计。
+                      </p>
+                      <div class="flex flex-wrap items-center gap-2.5 text-xs text-muted-foreground">
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="calendar" class="w-3 h-3"></i>
+                          2026.07.25
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full" style="background: var(--emily-brand-soft); color: var(--emily-primary);">前端技术</span>
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="clock" class="w-3 h-3"></i>
+                          8 分钟阅读
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="surface-card article-card overflow-hidden" data-article-link="post.html" role="link" tabindex="0" aria-label="阅读：盛夏的晚风与未完成的诗">
+                  <div class="flex items-stretch">
+                    <div class="card-media thumb-2 min-w-[120px] w-[120px] flex items-center justify-center">
+                      <i data-lucide="feather" class="w-7 h-7 text-white opacity-70"></i>
+                    </div>
+                    <div class="flex-1 p-4 flex flex-col justify-center min-w-0">
+                      <h3 class="font-serif-cn text-base font-semibold text-foreground mb-1.5 leading-snug transition-colors duration-300 hover:text-primary cursor-pointer truncate">
+                        盛夏的晚风与未完成的诗
+                      </h3>
+                      <p class="text-xs text-muted-foreground mb-2 line-clamp-1">
+                        蝉鸣渐远的傍晚，晚风拂过窗台，那些未写完的诗句在心底轻轻回响。
+                      </p>
+                      <div class="flex flex-wrap items-center gap-2.5 text-xs text-muted-foreground">
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="calendar" class="w-3 h-3"></i>
+                          2026.07.20
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full" style="background: var(--emily-brand-soft); color: var(--emily-primary);">诗歌</span>
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="clock" class="w-3 h-3"></i>
+                          3 分钟阅读
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="surface-card article-card overflow-hidden" data-article-link="post.html" role="link" tabindex="0" aria-label="阅读：从零搭建个人博客的那些事">
+                  <div class="flex items-stretch">
+                    <div class="card-media thumb-3 min-w-[120px] w-[120px] flex items-center justify-center">
+                      <i data-lucide="code-2" class="w-7 h-7 text-white opacity-70"></i>
+                    </div>
+                    <div class="flex-1 p-4 flex flex-col justify-center min-w-0">
+                      <h3 class="font-serif-cn text-base font-semibold text-foreground mb-1.5 leading-snug transition-colors duration-300 hover:text-primary cursor-pointer truncate">
+                        从零搭建个人博客的那些事
+                      </h3>
+                      <p class="text-xs text-muted-foreground mb-2 line-clamp-1">
+                        从选型到部署，记录搭建这个博客的全过程，分享踩过的坑与收获的经验。
+                      </p>
+                      <div class="flex flex-wrap items-center gap-2.5 text-xs text-muted-foreground">
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="calendar" class="w-3 h-3"></i>
+                          2026.07.15
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full" style="background: var(--emily-brand-soft); color: var(--emily-primary);">技术随笔</span>
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="clock" class="w-3 h-3"></i>
+                          12 分钟阅读
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="surface-card article-card overflow-hidden" data-article-link="post.html" role="link" tabindex="0" aria-label="阅读：读书笔记与生活思考">
+                  <div class="flex items-stretch">
+                    <div class="card-media thumb-4 min-w-[120px] w-[120px] flex items-center justify-center">
+                      <i data-lucide="sunrise" class="w-7 h-7 text-white opacity-70"></i>
+                    </div>
+                    <div class="flex-1 p-4 flex flex-col justify-center min-w-0">
+                      <h3 class="font-serif-cn text-base font-semibold text-foreground mb-1.5 leading-snug transition-colors duration-300 hover:text-primary cursor-pointer truncate">
+                        关于「我破晓，无远弗届」
+                      </h3>
+                      <p class="text-xs text-muted-foreground mb-2 line-clamp-1">
+                        这句座右铭背后的故事，以及它如何影响了我看待世界与书写生活的方式。
+                      </p>
+                      <div class="flex flex-wrap items-center gap-2.5 text-xs text-muted-foreground">
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="calendar" class="w-3 h-3"></i>
+                          2026.07.10
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full" style="background: var(--emily-brand-soft); color: var(--emily-primary);">随笔</span>
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="clock" class="w-3 h-3"></i>
+                          6 分钟阅读
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="surface-card article-card overflow-hidden" data-article-link="post.html" role="link" tabindex="0" aria-label="阅读：旅行日志与沿途风景">
+                  <div class="flex items-stretch">
+                    <div class="card-media thumb-5 min-w-[120px] w-[120px] flex items-center justify-center">
+                      <i data-lucide="book-marked" class="w-7 h-7 text-white opacity-70"></i>
+                    </div>
+                    <div class="flex-1 p-4 flex flex-col justify-center min-w-0">
+                      <h3 class="font-serif-cn text-base font-semibold text-foreground mb-1.5 leading-snug transition-colors duration-300 hover:text-primary cursor-pointer truncate">
+                        读《人间词话》有感
+                      </h3>
+                      <p class="text-xs text-muted-foreground mb-2 line-clamp-1">
+                        王国维先生的境界说，穿越百年时光，依然能触动当代读者的心弦。
+                      </p>
+                      <div class="flex flex-wrap items-center gap-2.5 text-xs text-muted-foreground">
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="calendar" class="w-3 h-3"></i>
+                          2026.07.05
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full" style="background: var(--emily-brand-soft); color: var(--emily-primary);">读书笔记</span>
+                        <span class="inline-flex items-center gap-1">
+                          <i data-lucide="clock" class="w-3 h-3"></i>
+                          10 分钟阅读
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+              </div>
+
+              <!-- Load more button -->
+              <button class="w-full mt-6 py-3 rounded-xl glass text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:text-primary flex items-center justify-center gap-2" style="border-color: var(--emily-border);">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                加载更多
+              </button>
+            </div>
+
+            <!-- ===================== Right Column: Sidebar ===================== -->
+            <aside class="blog-sidebar flex flex-col gap-3">
+
+              <!-- Profile Card -->
+              <div class="surface-card p-5 text-center">
+                <div class="hero-avatar-wrap mb-4">
+                  <img src="../assets/avatar.jpg" alt="Emily" class="w-20 h-20 rounded-full object-cover mx-auto" style="border: 3px solid var(--emily-primary); box-shadow: var(--emily-shadow-warm);">
+                </div>
+                <h3 class="font-display text-xl font-semibold text-foreground mb-2">Emily</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+                  我破晓，无远弗届
+                </p>
+                <!-- Stats row -->
+                <div class="flex items-center justify-center gap-0 mb-5 py-3 border-y" style="border-color: var(--emily-border);">
+                  <div class="flex-1 text-center">
+                    <div class="font-display text-lg font-semibold text-foreground">35</div>
+                    <div class="text-xs text-muted-foreground">文章</div>
+                  </div>
+                  <div class="w-px h-8" style="background: var(--emily-border);"></div>
+                  <div class="flex-1 text-center">
+                    <div class="font-display text-lg font-semibold text-foreground">28</div>
+                    <div class="text-xs text-muted-foreground">标签</div>
+                  </div>
+                  <div class="w-px h-8" style="background: var(--emily-border);"></div>
+                  <div class="flex-1 text-center">
+                    <div class="font-display text-lg font-semibold text-foreground">5</div>
+                    <div class="text-xs text-muted-foreground">分类</div>
+                  </div>
+                </div>
+                <!-- Social icons -->
+                <div class="profile-contact-row" aria-label="联系方式">
+                  <a class="profile-contact-button" href="https://github.com/Emily-March" target="_blank" rel="noopener noreferrer" aria-label="访问 Emily 的 GitHub" data-label="GitHub · Emily-March"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.23c-3.22.7-3.9-1.37-3.9-1.37-.52-1.34-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.57-.29-5.27-1.28-5.27-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.47.11-3.05 0 0 .96-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.12c.98 0 1.95.13 2.87.39 2.2-1.49 3.16-1.18 3.16-1.18.62 1.58.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.71 5.38-5.29 5.67.42.36.79 1.07.79 2.16v3.25c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg></a>
+                  <a class="profile-contact-button" href="mailto:13295863288@163.com" aria-label="发送邮件给 Emily" data-label="邮箱 · 13295863288@163.com"><i data-lucide="mail"></i></a>
+                  <button class="profile-contact-button copy-profile-contact" type="button" data-copy="1559405453" data-name="QQ" aria-label="复制 QQ 号 1559405453" data-label="QQ · 1559405453"><i data-lucide="message-circle"></i></button>
+                  <button class="profile-contact-button copy-profile-contact" type="button" data-copy="w2954977552" data-name="微信" aria-label="复制微信号 w2954977552" data-label="微信 · w2954977552"><i data-lucide="messages-square"></i></button>
+                </div>
+              </div>
+
+              <!-- Categories Card -->
+              <div class="surface-card p-5">
+                <div class="flex items-center gap-2 mb-4">
+                  <i data-lucide="folder" class="w-4 h-4 text-primary"></i>
+                  <h3 class="font-serif-cn text-base font-semibold text-foreground">分类</h3>
+                </div>
+                <ul class="flex flex-col gap-1">
+                  <li>
+                    <a href="#" class="cat-item flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300">
+                      <span class="text-sm text-foreground">生活随笔</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full" style="background: var(--emily-muted); color: var(--emily-muted-foreground);">12</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="cat-item flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300">
+                      <span class="text-sm text-foreground">前端技术</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full" style="background: var(--emily-muted); color: var(--emily-muted-foreground);">8</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="cat-item flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300">
+                      <span class="text-sm text-foreground">诗歌</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full" style="background: var(--emily-muted); color: var(--emily-muted-foreground);">6</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="cat-item flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300">
+                      <span class="text-sm text-foreground">读书笔记</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full" style="background: var(--emily-muted); color: var(--emily-muted-foreground);">5</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="cat-item flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300">
+                      <span class="text-sm text-foreground">旅行日志</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full" style="background: var(--emily-muted); color: var(--emily-muted-foreground);">4</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Recent Posts Card -->
+              <div class="surface-card p-5">
+                <div class="flex items-center gap-2 mb-4">
+                  <i data-lucide="clock" class="w-4 h-4 text-primary"></i>
+                  <h3 class="font-serif-cn text-base font-semibold text-foreground">最近文章</h3>
+                </div>
+                <ul class="flex flex-col gap-3">
+                  <li>
+                    <a href="#" class="flex items-center gap-3 group transition-all duration-300">
+                      <div class="thumb-1 min-w-[40px] w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="coffee" class="w-4 h-4 text-white opacity-80"></i>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm text-foreground truncate transition-colors duration-300 group-hover:text-primary">在清晨的咖啡香中，寻找生活的诗意</p>
+                        <p class="text-xs text-muted-foreground">2026.07.28</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center gap-3 group transition-all duration-300">
+                      <div class="thumb-2 min-w-[40px] w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="layout" class="w-4 h-4 text-white opacity-80"></i>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm text-foreground truncate transition-colors duration-300 group-hover:text-primary">用 CSS 玻璃拟态构建温暖的个人空间</p>
+                        <p class="text-xs text-muted-foreground">2026.07.25</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center gap-3 group transition-all duration-300">
+                      <div class="thumb-3 min-w-[40px] w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="feather" class="w-4 h-4 text-white opacity-80"></i>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm text-foreground truncate transition-colors duration-300 group-hover:text-primary">盛夏的晚风与未完成的诗</p>
+                        <p class="text-xs text-muted-foreground">2026.07.20</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center gap-3 group transition-all duration-300">
+                      <div class="thumb-4 min-w-[40px] w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="code-2" class="w-4 h-4 text-white opacity-80"></i>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm text-foreground truncate transition-colors duration-300 group-hover:text-primary">从零搭建个人博客的那些事</p>
+                        <p class="text-xs text-muted-foreground">2026.07.15</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            </aside>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="profile-contact-toast" id="profile-contact-toast" role="status" aria-live="polite"></div>
+
+    <!-- ================================================================ -->
+    <!-- Custom Style: animations, gradient text, thumbnails, responsive -->
+    <!-- ================================================================ -->
+    <style>
+      /* ---- Global overflow safety ---- */
+      html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+      }
+
+      /* ---- Decorative separator ---- */
+      .decor-sep {
+        color: var(--emily-primary);
+        font-size: 0.85em;
+        opacity: 0.7;
+      }
+
+      /* ---- Hero title: restrained ink with a single warm accent ---- */
+      .hero-title {
+        color: #493B2F;
+        text-shadow: 0 2px 16px rgba(255, 253, 248, 0.72);
+      }
+      .hero-title-accent {
+        position: relative;
+        display: inline-block;
+        color: var(--emily-primary);
+      }
+      .hero-title-accent::after {
+        content: '';
+        position: absolute;
+        right: 8%;
+        bottom: -0.08em;
+        left: 8%;
+        height: 0.08em;
+        min-height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, transparent, rgba(232, 137, 60, 0.72), transparent);
+      }
+
+      /* ---- Nav link active state ---- */
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:hover {
+        color: var(--emily-primary);
+      }
+      .nav-link.active {
+        color: var(--emily-primary);
+      }
+      .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--emily-primary);
+        border-radius: 2px;
+      }
+
+      /* ---- Hero section: warm background image + cream overlay ---- */
+      .hero-section {
+        background-image: url('../assets/hero-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      /* Warm cream + subtle orange tint overlay to unify image with brand palette */
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(247,242,234,0.55) 0%, rgba(247,242,234,0.30) 45%, rgba(247,242,234,0.78) 100%),
+          linear-gradient(135deg, rgba(232,137,60,0.10) 0%, rgba(232,137,60,0.02) 100%);
+        z-index: 1;
+        pointer-events: none;
+      }
+      .hero-section .font-serif-cn {
+        text-shadow: 0 1px 8px rgba(247,242,234,0.55);
+      }
+
+      /* ---- Floating glass navigation ---- */
+      .site-nav {
+        position: fixed;
+        top: 1rem;
+        left: 50%;
+        width: min(calc(100% - 2rem), 1200px);
+        border: 1px solid rgba(255, 255, 255, 0.52);
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.56);
+        -webkit-backdrop-filter: blur(16px) saturate(135%);
+        backdrop-filter: blur(16px) saturate(135%);
+        box-shadow: 0 8px 30px rgba(96, 66, 36, 0.08);
+        transform: translateX(-50%);
+        transition: top 0.35s ease, background 0.35s ease, border-color 0.35s ease,
+          box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+      }
+      .site-nav.is-scrolled {
+        top: 0.65rem;
+        background: rgba(255, 253, 248, 0.9);
+        border-color: rgba(232, 222, 207, 0.92);
+        -webkit-backdrop-filter: blur(24px) saturate(150%);
+        backdrop-filter: blur(24px) saturate(150%);
+        box-shadow: 0 14px 40px rgba(96, 66, 36, 0.16);
+      }
+
+      /* ---- Hero search bridge ---- */
+      .hero-search-wrap {
+        position: relative;
+        z-index: 8;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-width: 1280px;
+        margin: clamp(-3.5rem, -4vw, -3rem) auto 0;
+        padding: 0 1rem;
+      }
+      .hero-search {
+        display: flex;
+        align-items: center;
+        width: min(100%, 700px);
+        min-height: 3.5rem;
+        padding: 0.45rem 0.55rem 0.45rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.62);
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.72);
+        -webkit-backdrop-filter: blur(18px) saturate(140%);
+        backdrop-filter: blur(18px) saturate(140%);
+        box-shadow: 0 14px 42px rgba(96, 66, 36, 0.16);
+        transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease,
+          transform 0.3s ease;
+      }
+      .hero-search:focus-within {
+        background: rgba(255, 253, 248, 0.92);
+        border-color: rgba(232, 137, 60, 0.5);
+        box-shadow: 0 16px 46px rgba(96, 66, 36, 0.2), 0 0 0 3px rgba(232, 137, 60, 0.1);
+        transform: translateY(-2px);
+      }
+      .hero-search-icon {
+        flex: 0 0 auto;
+        color: var(--emily-primary);
+      }
+      .hero-search input {
+        min-width: 0;
+        flex: 1;
+        padding: 0.55rem 0.75rem;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--emily-foreground);
+        font: 500 0.9rem/1.4 var(--emily-font-sans);
+      }
+      .hero-search input::placeholder {
+        color: var(--emily-muted-foreground);
+        opacity: 0.84;
+      }
+      .hero-search-hint {
+        flex: 0 0 auto;
+        padding: 0.42rem 0.68rem;
+        border: 1px solid rgba(232, 222, 207, 0.9);
+        border-radius: 999px;
+        background: rgba(247, 242, 234, 0.82);
+        color: var(--emily-muted-foreground);
+        font-size: 0.68rem;
+        letter-spacing: 0.03em;
+      }
+
+      /* ---- Hero bottom: layered flowing waves ---- */
+      .hero-waves {
+        position: absolute;
+        z-index: 4;
+        right: 0;
+        bottom: -1px;
+        left: 0;
+        height: clamp(62px, 8vw, 112px);
+        overflow: hidden;
+        pointer-events: none;
+        line-height: 0;
+      }
+      .hero-waves svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .wave-layer {
+        transform-box: fill-box;
+        will-change: transform;
+      }
+      .wave-layer-back {
+        fill: rgba(232, 137, 60, 0.1);
+        animation: waveFlowLeft 18s linear infinite;
+      }
+      .wave-layer-middle {
+        fill: rgba(255, 253, 248, 0.62);
+        animation: waveFlowRight 13s linear infinite;
+      }
+      .wave-layer-front {
+        fill: var(--emily-background);
+        animation: waveFlowLeft 12s linear infinite;
+      }
+      @keyframes waveFlowLeft {
+        from { transform: translateX(0); }
+        to { transform: translateX(-1440px); }
+      }
+      @keyframes waveFlowRight {
+        from { transform: translateX(-1440px); }
+        to { transform: translateX(0); }
+      }
+
+      /* Pull the content into the wave transition for a layered landing-page feel. */
+      #articles {
+        position: relative;
+        z-index: 6;
+        margin-top: 0;
+        padding-top: clamp(2.5rem, 4vw, 3.25rem);
+      }
+
+      /* ---- Hero avatar floating animation ---- */
+      .hero-avatar-wrap {
+        animation: floatY 4s ease-in-out infinite;
+      }
+      @keyframes floatY {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+
+      /* ---- Profile contact buttons: shared with the About page ---- */
+      .profile-contact-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.7rem;
+      }
+      .profile-contact-button {
+        position: relative;
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--emily-border);
+        border-radius: 13px;
+        color: var(--emily-muted-foreground);
+        background: rgba(255, 253, 248, 0.62);
+        cursor: pointer;
+        text-decoration: none;
+        transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease,
+          box-shadow 0.25s ease, transform 0.25s ease;
+      }
+      .profile-contact-button svg {
+        width: 18px;
+        height: 18px;
+      }
+      .profile-contact-button:hover,
+      .profile-contact-button:focus-visible {
+        color: white;
+        border-color: var(--emily-primary);
+        background: var(--emily-primary);
+        box-shadow: 0 8px 18px rgba(232, 137, 60, 0.22);
+        transform: translateY(-2px);
+        outline: none;
+      }
+      .profile-contact-button::after {
+        content: attr(data-label);
+        position: absolute;
+        z-index: 20;
+        bottom: calc(100% + 9px);
+        left: 50%;
+        width: max-content;
+        max-width: 210px;
+        padding: 0.38rem 0.58rem;
+        border: 1px solid var(--emily-border);
+        border-radius: 8px;
+        color: var(--emily-foreground);
+        background: rgba(255, 253, 248, 0.96);
+        box-shadow: 0 8px 20px rgba(96, 66, 36, 0.14);
+        font-size: 0.66rem;
+        font-weight: 600;
+        line-height: 1.2;
+        opacity: 0;
+        transform: translate(-50%, 5px);
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      .profile-contact-button:hover::after,
+      .profile-contact-button:focus-visible::after {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .profile-contact-toast {
+        position: fixed;
+        z-index: 80;
+        right: 1rem;
+        bottom: 1rem;
+        padding: 0.7rem 1rem;
+        border: 1px solid var(--emily-border);
+        border-radius: 12px;
+        color: var(--emily-foreground);
+        background: rgba(255, 253, 248, 0.96);
+        box-shadow: var(--emily-card-shadow-hover);
+        font-size: 0.75rem;
+        opacity: 0;
+        transform: translateY(10px);
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+      .profile-contact-toast.show {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ---- Hero fade-in-up animation (staggered) ---- */
+      .hero-fade-1, .hero-fade-2, .hero-fade-3 {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;
+      }
+      .hero-fade-1 { animation-delay: 0.1s; }
+      .hero-fade-2 { animation-delay: 0.3s; }
+      .hero-fade-3 { animation-delay: 0.5s; }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ---- Scroll indicator bounce ---- */
+      .animate-bounce-slow {
+        animation: bounceSlow 2s ease-in-out infinite;
+      }
+      @keyframes bounceSlow {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(6px); }
+      }
+
+      /* ---- Unified card system ---- */
+      .surface-card {
+        border: 1px solid var(--emily-card-border);
+        border-radius: var(--emily-card-radius);
+        background: var(--emily-card-surface);
+        -webkit-backdrop-filter: blur(14px) saturate(115%);
+        backdrop-filter: blur(14px) saturate(115%);
+        box-shadow: var(--emily-card-shadow);
+        transition: transform 0.38s var(--emily-card-ease),
+          box-shadow 0.38s var(--emily-card-ease),
+          border-color 0.3s ease,
+          background 0.3s ease;
+      }
+      .surface-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(232, 137, 60, 0.42);
+        background: rgba(255, 253, 248, 0.84);
+        box-shadow: var(--emily-card-shadow-hover);
+      }
+      .surface-card:focus-within {
+        border-color: rgba(232, 137, 60, 0.5);
+        box-shadow: var(--emily-card-shadow-hover), 0 0 0 3px rgba(232, 137, 60, 0.08);
+      }
+      [data-article-link] {
+        cursor: pointer;
+      }
+      [data-article-link]:focus-visible {
+        outline: 3px solid rgba(232, 137, 60, 0.3);
+        outline-offset: 3px;
+      }
+      .card-media {
+        overflow: hidden;
+        transform: translateZ(0) scale(1);
+        transform-origin: center;
+        transition: transform 0.7s var(--emily-card-ease), filter 0.45s ease;
+      }
+      .card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .featured-card:hover .card-media,
+      .article-card:hover .card-media {
+        transform: translateZ(0) scale(1.035);
+        filter: saturate(1.04);
+      }
+
+      /* ---- Category item hover ---- */
+      .cat-item:hover {
+        background: var(--emily-brand-soft);
+      }
+
+      /* ---- Tag pill hover ---- */
+      .tag-pill:hover {
+        background: var(--emily-brand-soft) !important;
+        border-color: var(--emily-primary) !important;
+        color: var(--emily-primary) !important;
+      }
+
+      /* ---- Article thumbnail gradients (warm tones) ---- */
+      .thumb-featured {
+        background: linear-gradient(135deg, #E8893C 0%, #D97706 45%, #B45309 100%);
+      }
+      .thumb-1 {
+        background: linear-gradient(135deg, #E8893C 0%, #F4A560 60%, #F7D9B0 100%);
+      }
+      .thumb-2 {
+        background: linear-gradient(135deg, #D97706 0%, #FBBF24 100%);
+      }
+      .thumb-3 {
+        background: linear-gradient(135deg, #B45309 0%, #E8893C 100%);
+      }
+      .thumb-4 {
+        background: linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%);
+      }
+      .thumb-5 {
+        background: linear-gradient(135deg, #C2410C 0%, #E8893C 100%);
+      }
+
+      /* ---- Critical layout: two-column grid, independent cards (works without Tailwind runtime) ---- */
+      .blog-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: auto;
+        gap: 1.5rem;
+        align-items: start !important;
+      }
+      .blog-sidebar {
+        grid-column: 1;
+        grid-row: 1;
+        align-self: start !important;
+        width: auto !important;
+        height: auto !important;
+        min-width: 0;
+      }
+      .blog-main {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: start !important;
+        min-width: 0;
+        width: auto !important;
+        height: auto !important;
+      }
+
+      /* Tablet: narrower sidebar */
+      @media (max-width: 1024px) and (min-width: 769px) {
+        .blog-grid {
+          grid-template-columns: 1fr 1.5fr;
+          gap: 1.25rem;
+        }
+      }
+
+      /* Mobile: single column, articles first then sidebar */
+      @media (max-width: 768px) {
+        .blog-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        .blog-main, .blog-sidebar {
+          grid-column: 1;
+          grid-row: auto;
+        }
+        .hero-avatar {
+          width: 96px !important;
+          height: 96px !important;
+        }
+        .hero-waves {
+          height: 68px;
+        }
+        .site-nav {
+          top: 0.5rem;
+          width: calc(100% - 1rem);
+        }
+        .site-nav.is-scrolled {
+          top: 0.35rem;
+        }
+        .hero-search-wrap {
+          margin-top: -2.25rem;
+          padding-right: 0.75rem;
+          padding-left: 0.75rem;
+        }
+        .hero-search {
+          min-height: 3.25rem;
+        }
+        .hero-search-hint {
+          display: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .wave-layer,
+        .hero-fade-1,
+        .hero-fade-2,
+        .hero-fade-3,
+        .animate-bounce-slow {
+          animation: none !important;
+        }
+        .hero-fade-1,
+        .hero-fade-2,
+        .hero-fade-3 {
+          opacity: 1;
+          transform: none;
+        }
+        .surface-card,
+        .card-media {
+          transition: none !important;
+        }
+        .surface-card:hover,
+        .featured-card:hover .card-media,
+        .article-card:hover .card-media {
+          transform: none;
+        }
+      }
+
+      /* ---- Custom scrollbar (warm theme) ---- */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--emily-background);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--emily-border);
+        border-radius: 8px;
+        border: 2px solid var(--emily-background);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--emily-ink-3);
+      }
+      html {
+        scrollbar-color: var(--emily-border) var(--emily-background);
+        scrollbar-width: thin;
+      }
+
+      /* ---- Line clamp helpers ---- */
+      .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* ---- Smooth scroll for anchor links ---- */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* ---- Lucide icon sizing baseline ---- */
+      [data-lucide] {
+        stroke-width: 1.75;
+      }
+    </style>
+    <script>
+      lucide.createIcons();
+
+      const siteNav = document.querySelector('.site-nav');
+      const syncNavSurface = () => {
+        siteNav?.classList.toggle('is-scrolled', window.scrollY > 28);
+      };
+      syncNavSurface();
+      window.addEventListener('scroll', syncNavSurface, { passive: true });
+
+      const heroSearchForm = document.querySelector('.hero-search');
+      const heroSearchInput = document.querySelector('#hero-search-input');
+      const searchableArticles = Array.from(document.querySelectorAll('.blog-main article'));
+
+      const filterArticles = () => {
+        const query = heroSearchInput.value.trim().toLocaleLowerCase('zh-CN');
+        searchableArticles.forEach((article) => {
+          article.hidden = query.length > 0 && !article.textContent.toLocaleLowerCase('zh-CN').includes(query);
+        });
+      };
+
+      heroSearchInput?.addEventListener('input', filterArticles);
+      heroSearchInput?.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          heroSearchInput.value = '';
+          filterArticles();
+          heroSearchInput.blur();
+        }
+      });
+      heroSearchForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const firstMatch = searchableArticles.find((article) => !article.hidden);
+        firstMatch?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      document.querySelectorAll('[data-article-link]').forEach((card) => {
+        const openArticle = () => window.location.href = card.dataset.articleLink;
+        card.addEventListener('click', openArticle);
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openArticle();
+          }
+        });
+      });
+
+      const profileContactToast = document.querySelector('#profile-contact-toast');
+      let profileToastTimer;
+      const showProfileContactToast = (message) => {
+        profileContactToast.textContent = message;
+        profileContactToast.classList.add('show');
+        clearTimeout(profileToastTimer);
+        profileToastTimer = setTimeout(() => profileContactToast.classList.remove('show'), 1800);
+      };
+      const copyProfileContact = async (text) => {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const input = document.createElement('textarea');
+        input.value = text;
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        input.remove();
+      };
+      document.querySelectorAll('.copy-profile-contact').forEach((button) => {
+        button.addEventListener('click', async () => {
+          try {
+            await copyProfileContact(button.dataset.copy);
+            showProfileContactToast(`${button.dataset.name} 已复制：${button.dataset.copy}`);
+          } catch {
+            showProfileContactToast(`${button.dataset.name}：${button.dataset.copy}`);
+          }
+        });
+      });
+    </script>
+</body>
+</html>

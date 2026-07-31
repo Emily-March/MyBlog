@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+npm-debug.log*
+.DS_Store
+.preflight/
+*.design
+runtime-*.json
+validation-report.json
+colors_and_type.css
+%LOCALAPPDATA%/

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在清晨的咖啡香中，寻找生活的诗意 · Emily's Blog</title>
+  <meta name="description" content="每一个清晨，都是生活赠予我们的诗意瞬间。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --bg:#f7f2ea; --ink:#3a322a; --ink-soft:#6f6557; --ink-faint:#9b9084;
+      --brand:#e8893c; --brand-dark:#c96e25; --brand-soft:rgba(232,137,60,.12);
+      --surface:rgba(255,253,248,.74); --surface-strong:rgba(255,253,248,.92);
+      --border:rgba(232,222,207,.92); --shadow:0 14px 40px -18px rgba(96,66,36,.22);
+      --shadow-hover:0 20px 46px -18px rgba(96,66,36,.3); --radius:24px;
+      --ease:cubic-bezier(.22,1,.36,1); --sans:"Inter","PingFang SC","Microsoft YaHei",sans-serif;
+      --serif:"Noto Serif SC","Source Han Serif SC",serif; --display:"Fraunces","Noto Serif SC",serif;
+      --mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:100px}
+    body{margin:0;min-height:100vh;overflow-x:hidden;color:var(--ink);background:radial-gradient(circle at 10% 3%,rgba(232,137,60,.13),transparent 28rem),radial-gradient(circle at 90% 9%,rgba(177,203,185,.17),transparent 30rem),var(--bg);font-family:var(--sans)}
+    a,button{-webkit-tap-highlight-color:transparent} button{font:inherit}
+    .reading-progress{position:fixed;z-index:100;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--brand),#f3b56f);box-shadow:0 1px 8px rgba(232,137,60,.35)}
+    .site-nav{position:fixed;z-index:50;top:1rem;left:50%;width:min(calc(100% - 2rem),1200px);border:1px solid rgba(255,255,255,.58);border-radius:999px;background:rgba(255,253,248,.62);backdrop-filter:blur(18px) saturate(135%);box-shadow:0 8px 30px rgba(96,66,36,.08);transform:translateX(-50%);transition:.35s ease}
+    .site-nav.is-scrolled{top:.65rem;border-color:var(--border);background:rgba(255,253,248,.92);backdrop-filter:blur(24px) saturate(150%);box-shadow:0 14px 40px rgba(96,66,36,.16)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 2rem}.wordmark{color:var(--ink);font:600 1.25rem/1 var(--display);text-decoration:none}.wordmark span{color:var(--brand)}
+    .nav-links{display:flex;align-items:center;gap:2rem}.nav-link{position:relative;padding:.5rem 0;color:var(--ink-soft);font-size:.875rem;font-weight:600;text-decoration:none;transition:color .25s}.nav-link:hover,.nav-link.active{color:var(--brand)}
+    .menu-button{display:none;width:38px;height:38px;place-items:center;border:0;border-radius:50%;color:var(--ink);background:transparent;cursor:pointer}.mobile-menu{position:fixed;z-index:45;top:5.3rem;right:1rem;left:1rem;display:none;padding:.75rem;border:1px solid var(--border);border-radius:20px;background:var(--surface-strong);backdrop-filter:blur(24px);box-shadow:var(--shadow-hover)}.mobile-menu.open{display:grid;gap:.25rem}.mobile-menu a{padding:.8rem 1rem;border-radius:14px;color:var(--ink);font-size:.9rem;font-weight:600;text-decoration:none}.mobile-menu a:hover{color:var(--brand);background:var(--brand-soft)}
+    .reading-layout{display:grid;grid-template-columns:minmax(0,820px) 250px;align-items:start;gap:1.6rem;width:min(calc(100% - 2rem),1100px);margin:0 auto;padding:7.5rem 0 5rem}
+    .post-card{overflow:hidden;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);backdrop-filter:blur(18px) saturate(115%);box-shadow:var(--shadow)}
+    .post-cover{position:relative;margin:0;aspect-ratio:16/7;overflow:hidden;background:#eadfce}.post-cover img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 58%;opacity:.94}.post-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(49,34,23,.18))}
+    .post-inner{padding:2.25rem 3rem 3rem}.back-link{display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.35rem;padding:.55rem .8rem;border:1px solid var(--border);border-radius:999px;color:var(--ink-soft);background:rgba(255,253,248,.56);font-size:.72rem;font-weight:700;text-decoration:none;transition:.25s}.back-link:hover{color:var(--brand-dark);border-color:rgba(232,137,60,.4);transform:translateX(-2px)}
+    .post-header{padding-bottom:1.65rem;border-bottom:1px solid var(--border)}.post-title{margin:0;color:#493b2f;font:700 clamp(2rem,4.5vw,3rem)/1.32 var(--serif);letter-spacing:-.03em}.post-deck{margin:1rem 0 0;color:var(--ink-soft);font:400 .95rem/1.8 var(--serif)}
+    .post-meta{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.15rem}.meta-pill{display:inline-flex;align-items:center;gap:.35rem;padding:.42rem .65rem;border:1px solid rgba(232,222,207,.82);border-radius:999px;color:var(--ink-soft);background:rgba(255,253,248,.5);font-size:.68rem;font-weight:600}.meta-pill svg{width:13px;height:13px}.meta-pill.category{color:var(--brand-dark);background:var(--brand-soft)}
+    .mobile-toc{display:none;margin-top:1rem;border:1px solid var(--border);border-radius:16px;background:rgba(255,253,248,.58)}.mobile-toc summary{padding:.8rem 1rem;color:var(--ink);font-size:.78rem;font-weight:700;cursor:pointer}.mobile-toc-list{display:grid;gap:.45rem;padding:0 1rem 1rem}.mobile-toc-list a{color:var(--ink-soft);font-size:.74rem;text-decoration:none}.mobile-toc-list a[data-level="3"]{padding-left:.8rem}
+    .prose{padding-top:.9rem;color:#4b4238;font-family:var(--serif);font-size:1rem;line-height:2}.prose p{margin:1.15rem 0}.prose>p:first-child{font-size:1.04rem}.prose h2,.prose h3{position:relative;color:#493b2f;scroll-margin-top:105px}.prose h2{margin:2.7rem 0 1rem;padding-left:.85rem;font-size:1.45rem;line-height:1.5}.prose h2::before{content:"";position:absolute;top:.3em;bottom:.3em;left:0;width:4px;border-radius:99px;background:var(--brand)}.prose h3{margin:2rem 0 .8rem;font-size:1.12rem}.prose strong{color:#3b3027}.prose a{color:var(--brand-dark);text-decoration-color:rgba(232,137,60,.35);text-underline-offset:3px}.prose ul,.prose ol{padding-left:1.4rem}.prose li{margin:.35rem 0}.prose li::marker{color:var(--brand)}
+    .prose blockquote{margin:1.6rem 0;padding:1rem 1.2rem;border-left:4px solid var(--brand);border-radius:0 16px 16px 0;color:var(--ink-soft);background:rgba(232,137,60,.08)}.prose blockquote p{margin:0}.callout{display:flex;gap:.8rem;margin:1.5rem 0;padding:1rem 1.1rem;border:1px solid rgba(232,137,60,.22);border-radius:16px;background:rgba(255,248,238,.72)}.callout svg{flex:0 0 auto;width:19px;height:19px;margin-top:.25rem;color:var(--brand)}.callout p{margin:0}
+    .code-block{position:relative;margin:1.6rem 0;overflow:hidden;border:1px solid #473b32;border-radius:16px;background:#2f2924;box-shadow:0 12px 26px -18px rgba(30,22,16,.6)}.code-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;border-bottom:1px solid rgba(255,255,255,.08);color:#c9bbaa;font:500 .68rem/1 var(--mono)}.copy-button{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .45rem;border:0;border-radius:7px;color:#dacdbf;background:rgba(255,255,255,.08);font:500 .65rem/1 var(--sans);cursor:pointer}.copy-button:hover{color:white;background:rgba(232,137,60,.25)}pre{margin:0;padding:1.1rem 1.2rem;overflow:auto;color:#f2e8dc;font:400 .78rem/1.8 var(--mono)}code{font-family:var(--mono)}.inline-code{padding:.14rem .35rem;border-radius:6px;color:var(--brand-dark);background:var(--brand-soft);font-size:.88em}
+    .content-figure{margin:1.8rem 0}.content-figure img{display:block;width:100%;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}.content-figure figcaption{margin-top:.6rem;color:var(--ink-faint);text-align:center;font:400 .7rem/1.6 var(--sans)}
+    .table-wrap{margin:1.5rem 0;overflow-x:auto;border:1px solid var(--border);border-radius:14px}table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.78rem}th,td{padding:.75rem .9rem;border-bottom:1px solid var(--border);text-align:left}th{color:var(--ink);background:rgba(239,230,214,.52)}tr:last-child td{border-bottom:0}
+    .post-end{display:grid;gap:1rem;margin-top:3rem}
+    .post-navigation{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.post-nav-link{padding:1rem;border:1px solid var(--border);border-radius:18px;color:var(--ink);background:rgba(255,253,248,.55);text-decoration:none;transition:.28s var(--ease)}.post-nav-link:hover{border-color:rgba(232,137,60,.4);box-shadow:var(--shadow);transform:translateY(-2px)}.post-nav-link.next{text-align:right}.post-nav-label{display:block;margin-bottom:.35rem;color:var(--ink-faint);font-size:.64rem}.post-nav-title{display:block;font:600 .8rem/1.55 var(--serif)}
+    .comments-box{margin-top:1rem;padding:1.4rem;border:1px dashed var(--border);border-radius:18px;text-align:center;background:rgba(255,253,248,.36)}.comments-box svg{width:26px;height:26px;color:var(--brand)}.comments-box h3{margin:.55rem 0 .25rem;font:600 .95rem/1.5 var(--serif)}.comments-box p{margin:0;color:var(--ink-soft);font-size:.72rem}
+    .toc-card{position:sticky;top:6.6rem;padding:1rem;border:1px solid var(--border);border-radius:20px;background:var(--surface);backdrop-filter:blur(16px);box-shadow:var(--shadow)}.toc-heading{display:flex;align-items:center;gap:.45rem;margin:0 0 .8rem;color:var(--ink);font-size:.78rem;font-weight:700}.toc-heading svg{width:15px;height:15px;color:var(--brand)}.toc-list{display:grid;gap:.15rem}.toc-link{position:relative;padding:.5rem .6rem;border-radius:10px;color:var(--ink-soft);font-size:.72rem;line-height:1.45;text-decoration:none;transition:.25s}.toc-link[data-level="3"]{padding-left:1.25rem;font-size:.68rem}.toc-link:hover,.toc-link.active{color:var(--brand-dark);background:var(--brand-soft)}.toc-note{margin:.9rem 0 0;padding-top:.75rem;border-top:1px solid var(--border);color:var(--ink-faint);font-size:.62rem;line-height:1.6}
+    .page-footer{padding:1rem 1rem 3rem;color:var(--ink-faint);text-align:center;font-size:.7rem}
+    @media(max-width:1024px){.reading-layout{grid-template-columns:minmax(0,820px);justify-content:center}.toc-card{display:none}.mobile-toc{display:block}}
+    @media(max-width:768px){.site-nav{top:.5rem;width:calc(100% - 1rem)}.site-nav.is-scrolled{top:.35rem}.nav-inner{height:60px;padding:0 1rem}.nav-links{display:none}.menu-button{display:grid}.reading-layout{width:min(calc(100% - 1rem),820px);padding-top:6.2rem}.post-cover{aspect-ratio:16/9}.post-inner{padding:1.2rem 1.15rem 1.6rem}.post-title{font-size:1.75rem}.prose{font-size:.96rem;line-height:1.95}.post-navigation{grid-template-columns:1fr}.post-nav-link.next{text-align:left}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.back-link:hover,.post-nav-link:hover{transform:none}}
+  </style>
+</head>
+<body>
+  <div class="reading-progress" id="reading-progress"></div>
+  <nav class="site-nav" aria-label="主导航"><div class="nav-inner"><a class="wordmark" href="index.html"><span>Emily's</span> Blog</a><div class="nav-links"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="articles.html">归档</a><a class="nav-link" href="about.html">关于</a></div><button class="menu-button" id="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false"><i data-lucide="menu"></i></button></div></nav>
+  <div class="mobile-menu" id="mobile-menu"><a href="index.html">首页</a><a href="articles.html">归档</a><a href="about.html">关于</a></div>
+
+  <main class="reading-layout">
+    <article class="post-card">
+      <figure class="post-cover"><img src="../assets/hero-bg.jpg" alt="海边电车驶过清晨的镰仓"></figure>
+      <div class="post-inner">
+        <a class="back-link" href="articles.html"><i data-lucide="arrow-left" style="width:14px;height:14px"></i>返回归档</a>
+        <header class="post-header">
+          <h1 class="post-title">在清晨的咖啡香中，寻找生活的诗意</h1>
+          <p class="post-deck">每一个清晨，都是生活赠予我们的诗意瞬间，值得被细细品味与珍藏。</p>
+          <div class="post-meta">
+            <span class="meta-pill"><i data-lucide="calendar"></i>2026.07.28</span>
+            <span class="meta-pill"><i data-lucide="clock-3"></i>5 分钟阅读</span>
+            <span class="meta-pill"><i data-lucide="eye"></i>268</span>
+            <span class="meta-pill category">生活随笔</span>
+            <span class="meta-pill"># 随笔</span><span class="meta-pill"># 日常</span>
+          </div>
+          <details class="mobile-toc"><summary>文章目录</summary><nav class="mobile-toc-list" id="mobile-toc-list"></nav></details>
+        </header>
+
+        <div class="prose" id="article-content">
+          <p>清晨六点半，窗帘边缘已经透进一层很薄的光。水壶开始发出轻微的响声，咖啡粉遇到热水，香气一点点漫过安静的房间。</p>
+          <p>这样的时刻并不宏大，却常常是我一天里最喜欢的部分。它提醒我：生活的诗意未必藏在远方，也可能只是一个没有被匆忙打断的早晨。</p>
+
+          <h2 id="slow-morning">把早晨还给自己</h2>
+          <p>过去我总习惯醒来就拿起手机。消息、新闻和待办事项很快占据注意力，还没有真正清醒，一天就已经被外界推着向前。</p>
+          <blockquote><p>慢下来并不代表停滞，而是重新决定，什么值得成为今天的第一件事。</p></blockquote>
+          <p>后来我给自己留出二十分钟：不查看通知，只烧水、磨豆、打开窗户。这个简单的顺序逐渐成为一种稳定的生活锚点。</p>
+
+          <h3 id="tiny-rituals">微小仪式的意义</h3>
+          <p>仪式感不是把生活包装得精致，而是用一个明确的动作告诉自己：我正在认真经历此刻。它可以是一杯咖啡，也可以是整理桌面、写三行日记。</p>
+          <div class="callout"><i data-lucide="lightbulb"></i><p>不需要一次建立很多习惯。选择一个足够小、每天都能完成的动作，让它自然地留在生活里。</p></div>
+
+          <h2 id="warm-design">温暖感也可以被设计</h2>
+          <p>我在制作这个博客时，也尝试把这种缓慢、安静的感觉放进界面：克制的暖橙色、奶油色背景、柔和阴影，以及不会突然打断阅读的动画。</p>
+          <ul><li>正文保持足够的行高和段落间距。</li><li>强调色只用于真正需要注意的位置。</li><li>图片保留呼吸空间，不让内容显得拥挤。</li></ul>
+
+          <h3 id="code-example">一个简单的设计变量</h3>
+          <p>这些视觉规则最终会被整理为统一变量，例如 <code class="inline-code">--emily-primary</code>，让不同页面保持一致。</p>
+          <div class="code-block"><div class="code-header"><span>CSS</span><button class="copy-button" type="button"><i data-lucide="copy" style="width:12px;height:12px"></i><span>复制</span></button></div><pre><code>:root {
+  --emily-background: #f7f2ea;
+  --emily-foreground: #3a322a;
+  --emily-primary: #e8893c;
+  --emily-card-radius: 20px;
+}</code></pre></div>
+
+          <figure class="content-figure"><img src="../assets/hero-bg.jpg" alt="清晨海边的电车与阳光"><figcaption>清晨的光穿过海面，也让平常的通勤有了电影一样的片刻。</figcaption></figure>
+
+          <h2 id="writing-rhythm">找到适合自己的节奏</h2>
+          <p>并不是所有人都需要早起，也不是每一天都必须精心安排。重要的是找到真正适合自己的节奏，而不是复制他人的生活模板。</p>
+          <div class="table-wrap"><table><thead><tr><th>时刻</th><th>可以尝试的事</th><th>目的</th></tr></thead><tbody><tr><td>起床后</td><td>暂缓查看消息</td><td>保护注意力</td></tr><tr><td>早餐前</td><td>写下今天最重要的一件事</td><td>明确方向</td></tr><tr><td>开始工作前</td><td>整理桌面与环境</td><td>进入状态</td></tr></tbody></table></div>
+
+          <h2 id="ending">写在最后</h2>
+          <p>我们很容易记住那些巨大的转折，却常常忽略组成生活的大部分，其实是无数普通的早晨和夜晚。愿我们都能在这些细小的时刻里，找到属于自己的温度。</p>
+        </div>
+
+        <div class="post-end">
+          <nav class="post-navigation" aria-label="相邻文章"><a class="post-nav-link" href="#"><span class="post-nav-label">上一篇</span><span class="post-nav-title">盛夏的晚风与未完成的诗</span></a><a class="post-nav-link next" href="#"><span class="post-nav-label">下一篇</span><span class="post-nav-title">用 CSS 玻璃拟态构建温暖的个人空间</span></a></nav>
+          <section class="comments-box"><i data-lucide="message-circle"></i><h3>评论区</h3><p>正式接入 GitHub OAuth 和评论仓库后，评论将在这里显示。</p></section>
+        </div>
+      </div>
+    </article>
+
+    <aside class="toc-card"><h2 class="toc-heading"><i data-lucide="list-tree"></i>文章目录</h2><nav class="toc-list" id="toc-list"></nav><p class="toc-note">滚动阅读时，目录会自动标记当前章节。</p></aside>
+  </main>
+  <footer class="page-footer">© 2026 Emily's Blog · 愿每一次阅读，都有安静停留的片刻。</footer>
+
+  <script>
+    const headings=[...document.querySelectorAll('#article-content h2,#article-content h3')];
+    const tocList=document.querySelector('#toc-list'); const mobileToc=document.querySelector('#mobile-toc-list');
+    const tocMarkup=headings.map(h=>`<a class="toc-link" data-id="${h.id}" data-level="${h.tagName.slice(1)}" href="#${h.id}">${h.textContent}</a>`).join('');
+    tocList.innerHTML=tocMarkup; mobileToc.innerHTML=tocMarkup;
+    const setActive=id=>document.querySelectorAll('.toc-link').forEach(link=>link.classList.toggle('active',link.dataset.id===id));
+    if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{entries.filter(e=>e.isIntersecting).forEach(e=>setActive(e.target.id))},{rootMargin:'-18% 0px -68% 0px'});headings.forEach(h=>observer.observe(h))}
+    const progress=document.querySelector('#reading-progress'); const syncProgress=()=>{const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=`${max>0?Math.min(100,scrollY/max*100):0}%`;document.querySelector('.site-nav').classList.toggle('is-scrolled',scrollY>28)};addEventListener('scroll',syncProgress,{passive:true});syncProgress();
+    document.querySelectorAll('.copy-button').forEach(button=>button.addEventListener('click',async()=>{const code=button.closest('.code-block').querySelector('code').textContent;try{await navigator.clipboard.writeText(code);button.querySelector('span').textContent='已复制';setTimeout(()=>button.querySelector('span').textContent='复制',1600)}catch{button.querySelector('span').textContent='复制失败'}}));
+    const toggle=document.querySelector('#menu-toggle'),menu=document.querySelector('#mobile-menu');toggle.addEventListener('click',()=>{const open=menu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.innerHTML=`<i data-lucide="${open?'x':'menu'}"></i>`;lucide.createIcons()});
+    lucide.createIcons();
+  </script>
+</body>
+</html>
