@@ -8,6 +8,7 @@ import Icon from "./Icon";
 const links = [
   { href: "/", label: "首页" },
   { href: "/archive", label: "归档" },
+  { href: "/moments", label: "说说" },
   { href: "/about", label: "关于" },
 ];
 

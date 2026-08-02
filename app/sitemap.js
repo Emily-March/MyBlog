@@ -2,7 +2,7 @@ import { getPostSummaries } from "@/lib/posts";
 
 export default function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const pages = ["", "/archive", "/about"].map((path) => ({
+  const pages = ["", "/archive", "/moments", "/about"].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
     changeFrequency: path ? "monthly" : "weekly",
