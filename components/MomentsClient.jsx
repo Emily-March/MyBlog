@@ -37,12 +37,10 @@ export default function MomentsClient({ moments }) {
   return (
     <main className="page-shell narrow moments-page">
       <header className="moments-heading">
-        <span className="moments-kicker">MOMENTS</span>
-        <h1 className="section-title">说说 <span>/ 碎碎念</span></h1>
-        <p className="section-note">捕捉短暂的念头，也收藏平凡日子里的微光。</p>
+        <h1 className="section-title">说说 / 碎碎念</h1>
       </header>
 
-      <section className="surface moments-tools" aria-label="筛选说说">
+      <section className="moments-tools" aria-label="筛选说说">
         <label className="search-box moments-search">
           <Icon name="search" />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索说说内容…" aria-label="搜索说说" />
@@ -50,7 +48,7 @@ export default function MomentsClient({ moments }) {
         <div className="filter-pills moments-months" aria-label="按月份筛选">
           {["全部", ...months].map((item) => (
             <button className={`filter-pill${month === item ? " active" : ""}`} type="button" onClick={() => setMonth(item)} key={item}>
-              {item === "全部" ? `全部 ${moments.length}` : monthLabel(item)}
+              {item === "全部" ? "全部" : monthLabel(item)}
             </button>
           ))}
         </div>
@@ -63,7 +61,6 @@ export default function MomentsClient({ moments }) {
               <span className="moment-dot" aria-hidden="true" />
               <header className="moment-meta">
                 <time dateTime={moment.date}>{displayDate(moment.date)}</time>
-                {moment.tags.map((tag) => <span className="moment-tag" key={tag}>{tag}</span>)}
               </header>
               <div className="moment-content">
                 {moment.content.split(/\n{2,}/).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
