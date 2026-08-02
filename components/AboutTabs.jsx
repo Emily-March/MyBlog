@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import ContactLinks from "./ContactLinks";
 
@@ -11,16 +12,12 @@ const interests = [
   ["泳", "运动：", "游泳（只会蛙泳）、半吊子健身er一枚"],
 ];
 
-const activities = [
-  ["文章", "2026.07.28", "发布了《在清晨的咖啡香中，寻找生活的诗意》"],
-  ["博客", "2026.07.25", "完成 Next.js 项目结构与 Markdown 文章系统"],
-  ["文章", "2026.07.20", "发布了《盛夏的晚风与未完成的诗》"],
-  ["记录", "2026.07.15", "完成归档页与文章详情页的第一版设计"],
-  ["起点", "2026.05.06", "决定认真搭建一处属于自己的网络空间"],
-];
+function displayDate(date) {
+  return date.replaceAll("-", "/");
+}
 
-export default function AboutTabs() {
-  const [tab, setTab] = useState("about");
+export default function AboutTabs({ activities, initialTab = "about" }) {
+  const [tab, setTab] = useState(initialTab);
   return (
     <main className="page-shell narrow">
       <div className="about-cover"><Image src="/images/about-hero.jpg" alt="夕阳映照的水面与同行的人" fill priority sizes="(max-width: 720px) 100vw, 896px" /></div>
@@ -28,7 +25,7 @@ export default function AboutTabs() {
         <button className={`tab-button${tab === "about" ? " active" : ""}`} type="button" role="tab" aria-selected={tab === "about"} onClick={() => setTab("about")}>关于我</button>
         <button className={`tab-button${tab === "activity" ? " active" : ""}`} type="button" role="tab" aria-selected={tab === "activity"} onClick={() => setTab("activity")}>动态日志</button>
       </div>
-      <section className="surface about-card">
+      <section className={tab === "about" ? "surface about-card" : "about-card activity-panel"}>
         {tab === "about" ? (
           <div>
             <h1>Hello World, I&apos;m Emily.</h1>
@@ -45,7 +42,13 @@ export default function AboutTabs() {
           </div>
         ) : (
           <div className="activity-list">
-            {activities.map(([type, date, title]) => <article className="activity-item" key={`${date}-${title}`}><span className="activity-dot" /><div className="activity-content"><div className="activity-meta"><span className="activity-type">{type}</span><time>{date}</time></div><h3>{title}</h3></div></article>)}
+            {activities.length ? activities.map((activity) => (
+              <Link className="surface activity-item" href={activity.href} key={activity.id}>
+                <span className={`activity-type activity-type-${activity.type === "文章" ? "post" : "moment"}`}>{activity.type}</span>
+                <strong>{activity.title}</strong>
+                <time dateTime={activity.date}>{displayDate(activity.date)}</time>
+              </Link>
+            )) : <div className="surface empty-state">还没有可以展示的动态。</div>}
           </div>
         )}
       </section>

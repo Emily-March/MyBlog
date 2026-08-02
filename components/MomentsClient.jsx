@@ -57,7 +57,7 @@ export default function MomentsClient({ moments }) {
       {pageMoments.length ? (
         <div className="moments-timeline">
           {pageMoments.map((moment) => (
-            <article className="surface moment-card" key={moment.id}>
+            <article className="surface moment-card" id={`moment-${moment.id}`} key={moment.id}>
               <span className="moment-dot" aria-hidden="true" />
               <header className="moment-meta">
                 <time dateTime={moment.date}>{displayDate(moment.date)}</time>
