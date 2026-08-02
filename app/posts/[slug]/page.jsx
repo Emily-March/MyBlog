@@ -46,9 +46,9 @@ export default async function PostPage({ params }) {
                 <span className="meta-item"><Icon name="clock" size={14} />{post.readingMinutes} 分钟阅读</span>
                 <span className="meta-item"><Icon name="eye" size={14} />{post.views} 次阅读</span>
               </div>
+              <div className="article-tags">{post.tags.map((tag) => <span className="article-tag" key={tag}>#{tag}</span>)}</div>
             </header>
             <div className="article-content" dangerouslySetInnerHTML={{ __html: post.html }} />
-            <div className="article-tags">{post.tags.map((tag) => <span className="article-tag" key={tag}>#{tag}</span>)}</div>
           </article>
 
           {(previous || next) && (

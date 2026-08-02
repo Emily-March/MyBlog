@@ -10,6 +10,10 @@ published: true
 views: 0
 ---
 
+> **教程链接：** [【[2025][PyTorch]《RethinkFun深度学习》教程，零基础一站直达大模型DeepSeek-哔哩哔哩】](https://b23.tv/96YHrin)
+>
+> **电子书网站：** [RethinkFun 深度学习电子书](https://www.rethink.fun/)
+
 ## 第一章：初识深度学习
 
 ### 1.1 人工智能、机器学习与深度学习
