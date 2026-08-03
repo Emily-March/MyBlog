@@ -3,14 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { navigationLinks } from "@/lib/navigation";
 import Icon from "./Icon";
-
-const links = [
-  { href: "/", label: "首页" },
-  { href: "/archive", label: "归档" },
-  { href: "/moments", label: "说说" },
-  { href: "/about", label: "关于" },
-];
 
 export default function Header() {
   const pathname = usePathname();
@@ -34,7 +28,7 @@ export default function Header() {
         <div className="nav-inner">
           <Link className="wordmark" href="/"><span>Emily&apos;s</span> Blog</Link>
           <nav className="nav-links" aria-label="主导航">
-            {links.map((link) => (
+            {navigationLinks.map((link) => (
               <Link className={`nav-link${isActive(link.href) ? " active" : ""}`} href={link.href} key={link.href}>
                 {link.label}
               </Link>
@@ -46,7 +40,7 @@ export default function Header() {
         </div>
       </header>
       <nav className={`mobile-menu${open ? " open" : ""}`} aria-label="移动端导航">
-        {links.map((link) => (
+        {navigationLinks.map((link) => (
           <Link className={isActive(link.href) ? "active" : ""} href={link.href} key={link.href}>
             {link.label}
           </Link>

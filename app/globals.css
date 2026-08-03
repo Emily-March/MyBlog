@@ -128,9 +128,11 @@ img { max-width: 100%; }
 
 .mini-card { padding: 1.25rem; }
 .mini-card h3 { margin: 0 0 .8rem; font: 600 1rem/1.4 var(--serif); }
-.category-list { display: grid; gap: .3rem; }
-.category-link { display: flex; justify-content: space-between; padding: .6rem .65rem; border-radius: 11px; color: var(--muted); font-size: .78rem; text-decoration: none; transition: .2s; }
-.category-link:hover { color: var(--brand-dark); background: var(--brand-soft); }
+.home-navigation-list { display: grid; gap: .25rem; }
+.home-navigation-link { display: flex; align-items: center; gap: .8rem; padding: .65rem .7rem; border-radius: 11px; color: var(--muted); font: 500 .8rem/1.4 var(--serif); text-decoration: none; transition: color .2s, background .2s, transform .2s; }
+.home-navigation-link svg { color: var(--faint); transition: color .2s; }
+.home-navigation-link:hover { color: var(--brand-dark); background: var(--brand-soft); transform: translateX(3px); }
+.home-navigation-link:hover svg { color: var(--brand); }
 .posts-column { min-width: 0; }
 .posts-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .posts-count { color: var(--faint); font-size: .75rem; }

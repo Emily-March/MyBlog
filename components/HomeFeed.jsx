@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { navigationLinks } from "@/lib/navigation";
 import Icon from "./Icon";
 import PostCard from "./PostCard";
 import ProfileCard from "./ProfileCard";
@@ -31,12 +32,15 @@ export default function HomeFeed({ posts, categories }) {
           <aside className="sidebar">
             <ProfileCard postCount={posts.length} tagCount={tagCount} categoryCount={Object.keys(categories).length} />
             <section className="surface mini-card">
-              <h3>分类</h3>
-              <div className="category-list">
-                {Object.entries(categories).map(([category, count]) => (
-                  <Link className="category-link" href={`/archive?category=${encodeURIComponent(category)}`} key={category}><span>{category}</span><span>{count}</span></Link>
+              <h3>导航</h3>
+              <nav className="home-navigation-list" aria-label="首页快捷导航">
+                {navigationLinks.map((link) => (
+                  <Link className="home-navigation-link" href={link.href} key={link.href}>
+                    <Icon name={link.icon} size={19} />
+                    <span>{link.label}</span>
+                  </Link>
                 ))}
-              </div>
+              </nav>
             </section>
           </aside>
           <section className="posts-column">
