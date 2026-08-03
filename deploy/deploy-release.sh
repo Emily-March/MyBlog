@@ -10,16 +10,15 @@ fi
 
 base_dir="/opt/emilyfield-blog"
 release_dir="$base_dir/releases/$release_id"
-archive="$base_dir/shared/release.tar.gz"
 next_env="$base_dir/shared/.env.next"
 current_link="$base_dir/current"
 next_link="$base_dir/current.next"
 previous_release="$(readlink -f "$current_link" 2>/dev/null || true)"
 
-rm -rf "$release_dir"
-mkdir -p "$release_dir"
-tar -xzf "$archive" -C "$release_dir"
-rm -f "$archive"
+if [[ ! -f "$release_dir/server.js" ]]; then
+  echo "Release is incomplete: server.js is missing" >&2
+  exit 1
+fi
 
 mv "$next_env" "$base_dir/shared/.env"
 chmod 600 "$base_dir/shared/.env"

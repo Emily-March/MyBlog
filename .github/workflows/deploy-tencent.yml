@@ -16,7 +16,7 @@ jobs:
   deploy:
     name: Build and deploy production
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       NEXT_PUBLIC_SITE_URL: https://emilyfield.cn
 
@@ -36,13 +36,12 @@ jobs:
       - name: Build standalone application
         run: npm run build
 
-      - name: Package release
+      - name: Prepare release
         run: |
           mkdir -p release/.next
           cp -a .next/standalone/. release/
           cp -a .next/static release/.next/static
           cp -a public release/public
-          tar -C release -czf release.tar.gz .
 
       - name: Configure deployment key
         env:
@@ -67,7 +66,8 @@ jobs:
           DEPLOY_PORT: ${{ secrets.TENCENT_PORT }}
           DEPLOY_USER: ${{ secrets.TENCENT_USER }}
         run: |
-          scp -P "$DEPLOY_PORT" release.tar.gz "$DEPLOY_USER@$DEPLOY_HOST:/opt/emilyfield-blog/shared/release.tar.gz"
+          ssh -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '/opt/emilyfield-blog/releases/$GITHUB_SHA'"
+          rsync -az --delete --partial --link-dest=/opt/emilyfield-blog/current/ -e "ssh -p $DEPLOY_PORT" release/ "$DEPLOY_USER@$DEPLOY_HOST:/opt/emilyfield-blog/releases/$GITHUB_SHA/"
           scp -P "$DEPLOY_PORT" tencent.env "$DEPLOY_USER@$DEPLOY_HOST:/opt/emilyfield-blog/shared/.env.next"
           scp -P "$DEPLOY_PORT" deploy/deploy-release.sh "$DEPLOY_USER@$DEPLOY_HOST:/opt/emilyfield-blog/shared/deploy-release.sh"
 
