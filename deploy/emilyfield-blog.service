@@ -1,0 +1,24 @@
+[Unit]
+Description=Emilyfield Next.js Blog
+After=network.target
+
+[Service]
+Type=simple
+User=blogdeploy
+Group=blogdeploy
+WorkingDirectory=/opt/emilyfield-blog/current
+Environment=NODE_ENV=production
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=3001
+EnvironmentFile=-/opt/emilyfield-blog/shared/.env
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/emilyfield-blog/shared
+
+[Install]
+WantedBy=multi-user.target

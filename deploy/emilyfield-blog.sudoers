@@ -1,0 +1,1 @@
+blogdeploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart emilyfield-blog, /usr/bin/systemctl is-active emilyfield-blog
