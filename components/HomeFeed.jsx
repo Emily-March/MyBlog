@@ -8,6 +8,8 @@ import PostCard from "./PostCard";
 import ProfileCard from "./ProfileCard";
 import useViewCounts from "./useViewCounts";
 
+const homeNavigationLinks = navigationLinks.filter((link) => link.href !== "/");
+
 export default function HomeFeed({ posts, categories }) {
   const [query, setQuery] = useState("");
   const viewCounts = useViewCounts(posts);
@@ -34,7 +36,7 @@ export default function HomeFeed({ posts, categories }) {
             <section className="surface mini-card">
               <h3>导航</h3>
               <nav className="home-navigation-list" aria-label="首页快捷导航">
-                {navigationLinks.map((link) => (
+                {homeNavigationLinks.map((link) => (
                   <Link className="home-navigation-link" href={link.href} key={link.href}>
                     <Icon name={link.icon} size={19} />
                     <span>{link.label}</span>
