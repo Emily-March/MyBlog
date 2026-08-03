@@ -209,11 +209,9 @@ img { max-width: 100%; }
 .about-card h2 { position: relative; margin: 2rem 0 .9rem; padding-left: .8rem; font: 600 1.08rem/1.5 var(--serif); }
 .about-card h2::before { content: ""; position: absolute; top: .2em; bottom: .2em; left: 0; width: 3px; border-radius: 99px; background: var(--brand); }
 .about-card p { color: var(--ink-2); font: 400 .94rem/2 var(--serif); }
-.interest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-.interest { display: flex; gap: .7rem; padding: .85rem; border: 1px solid var(--border); border-radius: 16px; background: rgba(255, 253, 248, .48); }
-.interest-mark { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; border-radius: 11px; color: var(--brand-dark); background: var(--brand-soft); }
-.interest strong { display: block; font-size: .82rem; }
-.interest p { margin: .18rem 0 0; color: var(--muted); font: 400 .7rem/1.55 var(--sans); }
+.interest-copy { display: grid; gap: .35rem; }
+.interest-copy p { margin: 0; }
+.interest-copy strong { color: var(--ink); }
 .activity-panel { padding: 0; }
 .activity-list { display: grid; gap: .8rem; }
 .activity-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1rem; padding: 1rem 1.2rem; text-decoration: none; transition: border-color .25s, box-shadow .3s var(--ease), transform .3s var(--ease); }
@@ -311,7 +309,6 @@ img { max-width: 100%; }
   .activity-panel { padding: 0; }
   .activity-item { grid-template-columns: auto minmax(0, 1fr); gap: .65rem; padding: .9rem 1rem; }
   .activity-item time { grid-column: 2; }
-  .interest-grid { grid-template-columns: 1fr; }
   .article-head { padding: 1.4rem 1.2rem 1rem; }
   .article-content { padding: 0 1.2rem 1.5rem; font-size: .94rem; }
   .post-nav { grid-template-columns: 1fr; }
