@@ -4,7 +4,7 @@ date: "2026-08-02"
 category: "Tech"
 tags: ["人工智能", "机器学习", "深度学习", "大模型", "PyTorch"]
 excerpt: "Deeplearning|PyTorch|LLM|Deepseek"
-cover: "/images/pytorch-sea.jpg"
+cover: "/images/pytorch-sea-clean.jpg"
 featured: true
 published: true
 views: 0
