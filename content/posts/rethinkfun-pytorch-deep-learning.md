@@ -3,7 +3,7 @@ title: "Rethinkfun|PyTorch-深度学习（更新中）"
 date: "2026-08-02"
 category: "Tech"
 tags: ["人工智能", "机器学习", "深度学习", "大模型", "PyTorch"]
-excerpt: "从向量、矩阵到梯度：整理 RethinkFun 与课程第 1—3 章的核心概念、公式和深度学习联系。"
+excerpt: "Deeplearning|PyTorch|LLM|Deepseek"
 cover: ""
 featured: true
 published: true
