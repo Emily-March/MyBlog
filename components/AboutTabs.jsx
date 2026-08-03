@@ -34,9 +34,9 @@ export default function AboutTabs({ activities, initialTab = "about" }) {
             <p>这个博客里会记录我在技术、法律相关方向的学习笔记，也会放下一些与生活、成长和自我观察有关的文字。</p>
             <p>我希望它能够成为一处可以长期生长、偶尔回望的个人空间。</p>
             <h2>兴趣爱好</h2>
-            <div className="interest-copy">
-              {interests.map(([title, text]) => <p key={title}><strong>{title}</strong>{text}</p>)}
-            </div>
+            <ul className="interest-copy">
+              {interests.map(([title, text]) => <li key={title}><strong>{title}</strong>{text}</li>)}
+            </ul>
             <h2>联系我</h2>
             <p>如果你对我的博客内容、项目经历等感兴趣，欢迎与我交流。</p>
             <ContactLinks />

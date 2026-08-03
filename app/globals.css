@@ -209,8 +209,9 @@ img { max-width: 100%; }
 .about-card h2 { position: relative; margin: 2rem 0 .9rem; padding-left: .8rem; font: 600 1.08rem/1.5 var(--serif); }
 .about-card h2::before { content: ""; position: absolute; top: .2em; bottom: .2em; left: 0; width: 3px; border-radius: 99px; background: var(--brand); }
 .about-card p { color: var(--ink-2); font: 400 .94rem/2 var(--serif); }
-.interest-copy { display: grid; gap: .35rem; }
-.interest-copy p { margin: 0; }
+.interest-copy { display: grid; gap: .35rem; margin: 0; padding-left: 1.2rem; }
+.interest-copy li { padding-left: .1rem; color: var(--ink-2); font: 400 .94rem/2 var(--serif); }
+.interest-copy li::marker { color: var(--ink); font-size: .78em; }
 .interest-copy strong { color: var(--ink); }
 .activity-panel { padding: 0; }
 .activity-list { display: grid; gap: .8rem; }
