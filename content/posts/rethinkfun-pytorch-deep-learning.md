@@ -1,10 +1,10 @@
 ---
-title: "Rethinkfun|PyTorch-深度学习（更新中）"
+title: "Rethinkfun|PyTorch-深度学习"
 date: "2026-08-02"
 category: "Tech"
 tags: ["人工智能", "机器学习", "深度学习", "大模型", "PyTorch"]
 excerpt: "Deeplearning|PyTorch|LLM|Deepseek"
-cover: ""
+cover: "/images/pytorch-sea.jpg"
 featured: true
 published: true
 views: 0
