@@ -188,6 +188,7 @@ img { max-width: 100%; }
 .moment-content { color: var(--ink-2); font: 400 .93rem/1.9 var(--serif); }
 .moment-content p { margin: 0; white-space: pre-wrap; }
 .moment-content p + p { margin-top: .65rem; }
+.moment-number { font-family: var(--sans); font-variant-numeric: tabular-nums; letter-spacing: 0; }
 .moments-empty { padding: 3rem 1.5rem; text-align: center; }
 .moments-empty > span { display: grid; width: 46px; height: 46px; margin: 0 auto .9rem; place-items: center; border-radius: 50%; color: var(--brand); background: var(--brand-soft); }
 .moments-empty h2 { margin: 0 0 .4rem; font: 600 1rem/1.5 var(--serif); }

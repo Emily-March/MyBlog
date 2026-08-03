@@ -14,6 +14,12 @@ function displayDate(date) {
   return date.replaceAll("-", ".");
 }
 
+function renderPlainNumbers(text) {
+  return text.split(/(\d+(?::\d+)?)/g).map((part, index) => (
+    /^\d+(?::\d+)?$/.test(part) ? <span className="moment-number" key={`${part}-${index}`}>{part}</span> : part
+  ));
+}
+
 export default function MomentsClient({ moments }) {
   const months = useMemo(() => [...new Set(moments.map((moment) => moment.date.slice(0, 7)))], [moments]);
   const [query, setQuery] = useState("");
@@ -63,7 +69,7 @@ export default function MomentsClient({ moments }) {
                 <time dateTime={moment.date}>{displayDate(moment.date)}</time>
               </header>
               <div className="moment-content">
-                {moment.content.split(/\n{2,}/).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {moment.content.split(/\n{2,}/).map((paragraph) => <p key={paragraph}>{renderPlainNumbers(paragraph)}</p>)}
               </div>
             </article>
           ))}
