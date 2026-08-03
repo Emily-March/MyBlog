@@ -13,3 +13,5 @@ colors_and_type.css
 %LOCALAPPDATA%/
 %APPDATA%/
 .vercel/
+
+.env*

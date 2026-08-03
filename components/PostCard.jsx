@@ -22,7 +22,7 @@ export default function PostCard({ post }) {
         <p className="post-excerpt">{post.excerpt}</p>
         <div className="post-meta">
           <span className="meta-item"><Icon name="calendar" size={13} />{dateLabel(post.date)}</span>
-          <span className="meta-item"><Icon name="clock" size={13} />{post.readingMinutes} 分钟阅读</span>
+          <span className="meta-item"><Icon name="eye" size={13} />{post.views} 次阅读</span>
         </div>
       </div>
     </Link>

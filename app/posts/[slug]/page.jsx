@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Icon from "@/components/Icon";
+import PostViewCount from "@/components/PostViewCount";
 import { getAdjacentPosts, getPostBySlug, getPostSlugs } from "@/lib/posts";
 
 export function generateStaticParams() {
@@ -43,8 +44,7 @@ export default async function PostPage({ params }) {
               <h1>{post.title}</h1>
               <div className="article-meta">
                 <span className="meta-item"><Icon name="calendar" size={14} />{post.date.replaceAll("-", ".")}</span>
-                <span className="meta-item"><Icon name="clock" size={14} />{post.readingMinutes} 分钟阅读</span>
-                <span className="meta-item"><Icon name="eye" size={14} />{post.views} 次阅读</span>
+                <PostViewCount slug={post.slug} initialValue={post.views} />
               </div>
               <div className="article-tags">{post.tags.map((tag) => <span className="article-tag" key={tag}>#{tag}</span>)}</div>
             </header>

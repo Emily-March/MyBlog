@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import Icon from "./Icon";
+import useViewCounts from "./useViewCounts";
 
 const PAGE_SIZE = 8;
 
 export default function ArchiveClient({ posts, initialCategory = "全部" }) {
+  const viewCounts = useViewCounts(posts);
   const categories = useMemo(() => ["全部", ...new Set(posts.map((post) => post.category))], [posts]);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState(categories.includes(initialCategory) ? initialCategory : "全部");
@@ -60,7 +62,7 @@ export default function ArchiveClient({ posts, initialCategory = "全部" }) {
                     <time className="archive-date">{post.date.slice(5).replace("-", ".")}</time>
                     <div className="archive-main">
                       <h3 className="archive-title">{post.title}</h3>
-                      <div className="archive-tags">{post.tags.map((tag) => <span key={tag}>#{tag}</span>)}<span>· {post.views} 次阅读</span></div>
+                      <div className="archive-tags">{post.tags.map((tag) => <span key={tag}>#{tag}</span>)}<span>· {viewCounts[post.slug] ?? post.views} 次阅读</span></div>
                     </div>
                     <span className="archive-category">{post.category}</span>
                   </Link>
