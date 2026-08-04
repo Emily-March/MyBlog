@@ -1,6 +1,7 @@
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { MusicProvider } from "@/components/MusicProvider";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -17,9 +18,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="zh-CN">
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <MusicProvider>
+          <Header />
+          {children}
+          <Footer />
+        </MusicProvider>
       </body>
     </html>
   );

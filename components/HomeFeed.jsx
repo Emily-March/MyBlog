@@ -7,6 +7,9 @@ import Icon from "./Icon";
 import PostCard from "./PostCard";
 import ProfileCard from "./ProfileCard";
 import useViewCounts from "./useViewCounts";
+import MusicCard from "./MusicCard";
+import WeatherCard from "./WeatherCard";
+import CalendarCard from "./CalendarCard";
 
 const homeNavigationLinks = navigationLinks.filter((link) => link.href !== "/");
 
@@ -52,6 +55,11 @@ export default function HomeFeed({ posts, categories }) {
             </div>
             {filtered.length ? <div className="post-list">{filtered.map((post) => <PostCard post={{ ...post, views: viewCounts[post.slug] ?? post.views }} key={post.slug} />)}</div> : <div className="surface empty-state">没有找到与“{query}”相关的文章。</div>}
           </section>
+          <aside className="home-widgets" aria-label="首页小组件">
+            <MusicCard />
+            <WeatherCard />
+            <CalendarCard />
+          </aside>
         </div>
       </main>
     </>
