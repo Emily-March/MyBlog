@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Icon from "./Icon";
 import { formatMusicTime } from "./MusicCard";
 import { useMusic } from "./MusicProvider";
@@ -9,6 +9,7 @@ export default function MusicPageClient() {
   const { tracks, track, index, setIndex, playing, currentTime, duration, volume, toggle, next, previous, seek, setVolume } = useMusic();
   const [tab, setTab] = useState("lyrics");
   const [lyrics, setLyrics] = useState([]);
+  const lyricsPanelRef = useRef(null);
 
   useEffect(() => {
     if (!track?.lyric) return setLyrics([]);
@@ -22,6 +23,11 @@ export default function MusicPageClient() {
 
   const activeLyric = lyrics.reduce((found, line) => line.time <= currentTime ? line : found, null);
   const progress = duration ? Math.min(100, currentTime / duration * 100) : 0;
+
+  useEffect(() => {
+    const active = lyricsPanelRef.current?.querySelector('[data-active="true"]');
+    active?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [activeLyric?.time]);
 
   return (
     <main className="music-page page-shell">
@@ -46,8 +52,8 @@ export default function MusicPageClient() {
         <div className="music-detail-panel">
           <div className="music-tabs"><button className={tab === "lyrics" ? "active" : ""} onClick={() => setTab("lyrics")}>歌词</button><button className={tab === "playlist" ? "active" : ""} onClick={() => setTab("playlist")}>歌单</button></div>
           {tab === "lyrics" ? (
-            <div className="lyrics-panel">
-              {lyrics.length ? lyrics.map((line) => <button className={activeLyric === line ? "active" : ""} onClick={() => seek(line.time)} key={`${line.time}-${line.text}`}>{line.text}</button>) : <div className="music-empty"><Icon name="music" size={30} /><strong>{track ? "这首歌暂时没有歌词" : "等待你的第一份歌单"}</strong><p>准备好音频、封面与歌曲信息后，我会帮你接入。</p></div>}
+            <div className={`lyrics-panel${lyrics.length ? " has-lyrics" : ""}`} ref={lyricsPanelRef}>
+              {lyrics.length ? lyrics.map((line) => <button className={activeLyric === line ? "active" : ""} data-active={activeLyric === line} onClick={() => seek(line.time)} key={`${line.time}-${line.text}`}>{line.text}</button>) : <div className="music-empty"><Icon name="music" size={30} /><strong>{track ? "这首歌暂时没有歌词" : "等待你的第一份歌单"}</strong><p>准备好音频、封面与歌曲信息后，我会帮你接入。</p></div>}
             </div>
           ) : (
             <div className="playlist-panel">{tracks.length ? tracks.map((item, itemIndex) => <button className={itemIndex === index ? "active" : ""} onClick={() => setIndex(itemIndex)} key={item.id}><span>{String(itemIndex + 1).padStart(2, "0")}</span><div><strong>{item.title}</strong><small>{item.artist}</small></div><Icon name="play" /></button>) : <div className="music-empty"><strong>歌单为空</strong><p>之后添加的歌曲会统一出现在这里。</p></div>}</div>

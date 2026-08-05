@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Icon from "./Icon";
 import { useMusic } from "./MusicProvider";
 
@@ -13,7 +14,19 @@ export function formatMusicTime(value) {
 
 export default function MusicCard() {
   const { track, tracks, playing, currentTime, duration, toggle, next, previous, seek } = useMusic();
+  const [lyrics, setLyrics] = useState([]);
   const progress = duration ? Math.min(100, currentTime / duration * 100) : 0;
+  const currentLyric = lyrics.reduce((found, line) => line.time <= currentTime ? line.text : found, "");
+
+  useEffect(() => {
+    if (!track?.lyric) return setLyrics([]);
+    fetch(track.lyric).then((response) => response.text()).then((text) => {
+      setLyrics(text.split("\n").map((line) => {
+        const match = line.match(/^\[(\d+):(\d+(?:\.\d+)?)\](.*)$/);
+        return match ? { time: Number(match[1]) * 60 + Number(match[2]), text: match[3].trim() } : null;
+      }).filter((line) => line?.text));
+    }).catch(() => setLyrics([]));
+  }, [track?.lyric]);
 
   return (
     <section className="surface home-music-card">
@@ -30,7 +43,7 @@ export default function MusicCard() {
           <span>{track?.artist || "准备好音乐后即可播放"}</span>
         </div>
       </div>
-      <p className="mini-lyric">{track ? "音乐与文字，收藏此刻的心情。" : "这里会显示当前歌词"}</p>
+      <p className="mini-lyric">{currentLyric || (track ? "音乐与文字，收藏此刻的心情。" : "这里会显示当前歌词")}</p>
       <input className="music-progress" type="range" min="0" max={duration || 100} value={duration ? currentTime : 0} onChange={(event) => seek(Number(event.target.value))} disabled={!track} style={{ "--progress": `${progress}%` }} aria-label="播放进度" />
       <div className="music-time"><span>{formatMusicTime(currentTime)}</span><span>{formatMusicTime(duration)}</span></div>
       <div className="music-controls compact">

@@ -13,5 +13,6 @@ colors_and_type.css
 %LOCALAPPDATA%/
 %APPDATA%/
 .vercel/
+public/music/*.mp3
 
 .env*
