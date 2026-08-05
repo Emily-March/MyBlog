@@ -23,6 +23,7 @@ export function MusicProvider({ children }) {
     const syncTime = () => setCurrentTime(audio.currentTime || 0);
     const syncDuration = () => {
       if (Number.isFinite(audio.duration) && audio.duration > 0) setDuration(audio.duration);
+      setAudioError("");
     };
     const onPlay = () => {
       setAudioError("");

@@ -1,8 +1,7 @@
 name: Deploy to Tencent Cloud
 
 on:
-  push:
-    branches: [main]
+  # 腾讯云部署暂时改为手动触发。域名正式上线时再恢复 main 分支自动部署。
   workflow_dispatch:
 
 permissions:
