@@ -12,6 +12,7 @@ export function MusicProvider({ children }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolumeState] = useState(.72);
+  const [audioError, setAudioError] = useState("");
   const track = musicTracks[index] || null;
 
   useEffect(() => {
@@ -20,16 +21,34 @@ export function MusicProvider({ children }) {
     audio.volume = volume;
     audioRef.current = audio;
     const syncTime = () => setCurrentTime(audio.currentTime || 0);
-    const syncDuration = () => setDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
+    const syncDuration = () => {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) setDuration(audio.duration);
+    };
+    const onPlay = () => {
+      setAudioError("");
+      setPlaying(true);
+    };
     const stop = () => setPlaying(false);
+    const onError = () => {
+      setPlaying(false);
+      setAudioError("音频加载失败，请刷新后重试");
+    };
     audio.addEventListener("timeupdate", syncTime);
     audio.addEventListener("loadedmetadata", syncDuration);
+    audio.addEventListener("durationchange", syncDuration);
+    audio.addEventListener("canplay", syncDuration);
+    audio.addEventListener("play", onPlay);
     audio.addEventListener("pause", stop);
+    audio.addEventListener("error", onError);
     return () => {
       audio.pause();
       audio.removeEventListener("timeupdate", syncTime);
       audio.removeEventListener("loadedmetadata", syncDuration);
+      audio.removeEventListener("durationchange", syncDuration);
+      audio.removeEventListener("canplay", syncDuration);
+      audio.removeEventListener("play", onPlay);
       audio.removeEventListener("pause", stop);
+      audio.removeEventListener("error", onError);
     };
   }, []);
 
@@ -48,6 +67,7 @@ export function MusicProvider({ children }) {
     if (!audio || !track) return;
     audio.src = track.audio;
     audio.load();
+    setAudioError("");
     setCurrentTime(0);
     setDuration(0);
     if (playing) audio.play().catch(() => setPlaying(false));
@@ -64,7 +84,10 @@ export function MusicProvider({ children }) {
   const toggle = useCallback(() => {
     const audio = audioRef.current;
     if (!audio || !track) return;
-    if (audio.paused) audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    if (audio.paused) audio.play().catch(() => {
+      setPlaying(false);
+      setAudioError("音频加载失败，请刷新后重试");
+    });
     else {
       audio.pause();
       setPlaying(false);
@@ -87,8 +110,8 @@ export function MusicProvider({ children }) {
 
   const value = useMemo(() => ({
     tracks: musicTracks, track, index, setIndex, playing, currentTime, duration,
-    volume, toggle, next, previous, seek, setVolume,
-  }), [track, index, playing, currentTime, duration, volume, toggle, next, previous, seek, setVolume]);
+    volume, audioError, toggle, next, previous, seek, setVolume,
+  }), [track, index, playing, currentTime, duration, volume, audioError, toggle, next, previous, seek, setVolume]);
 
   return <MusicContext.Provider value={value}>{children}</MusicContext.Provider>;
 }

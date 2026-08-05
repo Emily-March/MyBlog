@@ -174,6 +174,7 @@ img { max-width: 100%; }
 .mini-track-copy strong { font: 600 .82rem/1.45 var(--serif); }
 .mini-track-copy span { margin-top: .18rem; color: var(--faint); font-size: .64rem; }
 .mini-lyric { min-height: 1.4em; margin: 1rem 0 .45rem; overflow: hidden; color: var(--brand-dark); font: 600 .7rem/1.4 var(--serif); text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.mini-lyric.is-error, .music-error { color: #b44f35; }
 .music-progress { width: 100%; height: 4px; margin: 0; appearance: none; border-radius: 999px; outline: 0; background: linear-gradient(90deg, var(--brand) var(--progress), rgba(207, 193, 174, .72) var(--progress)); cursor: pointer; }
 .music-progress::-webkit-slider-thumb { width: 12px; height: 12px; appearance: none; border: 0; border-radius: 50%; background: var(--brand-dark); box-shadow: 0 2px 6px rgba(96, 66, 36, .2); }
 .music-progress:disabled { cursor: not-allowed; opacity: .55; }
@@ -211,6 +212,7 @@ img { max-width: 100%; }
 .music-now { margin: 2rem 0 1.3rem; text-align: center; }
 .music-now h2 { margin: 0; font: 600 1.45rem/1.45 var(--serif); }
 .music-now p { margin: .4rem 0 0; color: var(--muted); font-size: .75rem; }
+.music-error { margin: -.65rem 0 .8rem; font-size: .7rem; text-align: center; }
 .music-controls .music-play-button.large { width: 62px; height: 62px; }
 .volume-control { display: flex; align-items: center; gap: .35rem; color: var(--muted); }
 .volume-control input { width: 58px; accent-color: var(--brand); }

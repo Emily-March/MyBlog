@@ -6,7 +6,7 @@ import { formatMusicTime } from "./MusicCard";
 import { useMusic } from "./MusicProvider";
 
 export default function MusicPageClient() {
-  const { tracks, track, index, setIndex, playing, currentTime, duration, volume, toggle, next, previous, seek, setVolume } = useMusic();
+  const { tracks, track, index, setIndex, playing, currentTime, duration, volume, audioError, toggle, next, previous, seek, setVolume } = useMusic();
   const [tab, setTab] = useState("lyrics");
   const [lyrics, setLyrics] = useState([]);
   const lyricsPanelRef = useRef(null);
@@ -39,6 +39,7 @@ export default function MusicPageClient() {
             <i />
           </div>
           <div className="music-now"><h2>{track?.title || "歌单还是空的"}</h2><p>{track?.artist || "添加第一首喜欢的音乐吧"}</p></div>
+          {audioError ? <p className="music-error" role="alert">{audioError}</p> : null}
           <input className="music-progress" type="range" min="0" max={duration || 100} value={duration ? currentTime : 0} onChange={(event) => seek(Number(event.target.value))} disabled={!track} style={{ "--progress": `${progress}%` }} aria-label="播放进度" />
           <div className="music-time"><span>{formatMusicTime(currentTime)}</span><span>{formatMusicTime(duration)}</span></div>
           <div className="music-controls">
