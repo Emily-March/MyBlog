@@ -49,11 +49,7 @@ export default function HomeFeed({ posts, categories }) {
             </section>
           </aside>
           <section className="posts-column">
-            <div className="posts-heading">
-              <div><h2 className="section-title">最新文章</h2><p className="section-note">记录正在学习与感受的事情。</p></div>
-              <span className="posts-count">{filtered.length} 篇</span>
-            </div>
-            {filtered.length ? <div className="post-list">{filtered.map((post) => <PostCard post={{ ...post, views: viewCounts[post.slug] ?? post.views }} key={post.slug} />)}</div> : <div className="surface empty-state">没有找到与“{query}”相关的文章。</div>}
+            {filtered.length ? <div className="post-list">{filtered.map((post, index) => <PostCard post={{ ...post, views: viewCounts[post.slug] ?? post.views }} reverse={index % 2 === 0} key={post.slug} />)}</div> : <div className="surface empty-state">没有找到与“{query}”相关的文章。</div>}
           </section>
           <aside className="home-widgets" aria-label="首页小组件">
             <MusicCard />

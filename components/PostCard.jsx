@@ -6,9 +6,9 @@ function dateLabel(date) {
   return date.replaceAll("-", ".");
 }
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, reverse = false }) {
   return (
-    <Link className="surface post-card" href={`/posts/${post.slug}`}>
+    <Link className={`surface post-card${reverse ? " is-reversed" : ""}`} href={`/posts/${post.slug}`}>
       <div className="post-card-media">
         {post.cover ? (
           <Image src={post.cover} alt="" fill sizes="(max-width: 720px) 100vw, 480px" />
